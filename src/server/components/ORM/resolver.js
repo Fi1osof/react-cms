@@ -9,348 +9,161 @@ import {
   GraphQLBoolean,
 } from 'graphql';
 
-import {
-	ObjectsListType,
-} from 'react-cms/src/app/components/ORM/fields';
+// import {
+// 	ObjectsListType,
+// } from 'react-cms/src/app/components/ORM/fields';
 
 
-const rootResolver = (source, args, context, info) => {
+// const rootResolver = (source, args, context, info) => {
 
-    let result;
-
-
-    const {
-      fieldName,
-      operation,
-      returnType,
-    } = info;
+//     let result;
 
 
-    if(source){
+//     const {
+//       fieldName,
+//       operation,
+//       returnType,
+//     } = info;
 
-      if(typeof source.fieldResolver === 'function'){
+
+//     if(source){
+
+//       if(typeof source.fieldResolver === 'function'){
         
 
         
-        result = source.fieldResolver(source, args, context, info);
-      }
+//         result = source.fieldResolver(source, args, context, info);
+//       }
 
-      else result = source[fieldName];
+//       else result = source[fieldName];
 
-    }
+//     }
 
-    if(result === undefined){
+//     if(result === undefined){
 
-      // Резолвим по типу объекта
+//       // Резолвим по типу объекта
 
-      return new Promise( async (resolve, reject) => {
-
-
-
-        const {
-          returnType,
-        } = info;
-
-        const {
-          name: returnTypeName,
-        } = returnType;
+//       return new Promise( async (resolve, reject) => {
 
 
 
-        if(returnType instanceof ObjectsListType){
+//         const {
+//           returnType,
+//         } = info;
+
+//         const {
+//           name: returnTypeName,
+//         } = returnType;
+
+
+
+//         if(returnType instanceof ObjectsListType){
           
-          const {
-            _fields: {
-              object: objectField,
-            },
-          } = returnType;
+//           const {
+//             _fields: {
+//               object: objectField,
+//             },
+//           } = returnType;
 
-          if(objectField && objectField.type){
+//           if(objectField && objectField.type){
 
-            const {
-              type: objectType,
-            } = objectField;
+//             const {
+//               type: objectType,
+//             } = objectField;
 
-            const {
-              ofType,
-            } = objectType || {};
+//             const {
+//               ofType,
+//             } = objectType || {};
    
-            await getObjectsList(ofType, source, args, context, info)
-              .then(r => {
-                result = r;
-              })
-              .catch(e => reject(e))
-          }
+//             await getObjectsList(ofType, source, args, context, info)
+//               .then(r => {
+//                 result = r;
+//               })
+//               .catch(e => reject(e))
+//           }
 
 
-        }
+//         }
 
-        else if(returnType instanceof GraphQLList){
+//         else if(returnType instanceof GraphQLList){
 
-          const {
-            ofType,
-          } = returnType;
+//           const {
+//             ofType,
+//           } = returnType;
 
-          await getObjects(ofType, source, args, context, info)
-            .then(r => {
-              result = r;
-            })
-            .catch(e => reject(e))
+//           await getObjects(ofType, source, args, context, info)
+//             .then(r => {
+//               result = r;
+//             })
+//             .catch(e => reject(e))
 
-        }
+//         }
 
-        else if(returnType instanceof GraphQLObjectType){
+//         else if(returnType instanceof GraphQLObjectType){
 
-          await getObject(returnType, source, args, context, info)
-            .then(r => {
-              result = r;
-            })
-            .catch(e => reject(e))
+//           await getObject(returnType, source, args, context, info)
+//             .then(r => {
+//               result = r;
+//             })
+//             .catch(e => reject(e))
 
-        }
+//         }
 
-        if(operation && operation.name){
+//         if(operation && operation.name){
 
 
 
-          switch(operation.name.value){
+//           switch(operation.name.value){
 
-            case "clearCache":
+//             case "clearCache":
 
 
-              const {
-                scope,
-              } = context;
+//               const {
+//                 scope,
+//               } = context;
 
-              result = await scope.clearCache();
+//               result = await scope.clearCache();
 
-              break;
+//               break;
 
-            // Сохранение поискового запроса
-            case "saveSearchStat":
+//             // Сохранение поискового запроса
+//             case "saveSearchStat":
 
-              if(returnType === SearchStatType){
+//               if(returnType === SearchStatType){
 
-                result = await createSearchStat(null, args, context, info);
+//                 result = await createSearchStat(null, args, context, info);
 
-              }
+//               }
 
-              break;
+//               break;
 
-            // Сохранение поискового запроса
-            case "updateCompany":
+//             // Сохранение поискового запроса
+//             case "updateCompany":
 
-              if(returnType === EditVersionType){
+//               if(returnType === EditVersionType){
 
 
 
-                result = createEditVersion(null, args, context, info);
+//                 result = createEditVersion(null, args, context, info);
 
-              }
+//               }
 
-              break;
+//               break;
 
-          }
+//           }
 
-        }
+//         }
 
-        resolve(result);
+//         resolve(result);
 
-      });
+//       });
 
-    }
+//     }
 
-    return result;
-}
-
-
-const getObjectsList = async (ofType, source, args, context, info) => {
-
-	let object;
-
-
-
-  if(ofType === CompanyType){
-  
-
-
-    await getCompanyList(source, args, context, info)
-      .then(r => {
-        object = r;
-      })
-      .catch(e => {
-        throw(e);
-      });
-
-  }
-
-  if(ofType === ResourceType){
-  
-
-
-    await getResourcesList(source, args, context, info)
-    	.then(r => {
-    		object = r;
-    	})
-      .catch(e => {
-        throw(e);
-      });
-
-  }
-
-  else if(ofType === RatingType){
-
-
-
-    await getRatingsList(source, args, context, info)
-      .then(r => {
-        object = r;
-      })
-      .catch(e => {
-        throw(e);
-      });
-
-  }
-
-  else if(ofType === UserType){
-
-
-
-    await getUsersList(source, args, context, info)
-      .then(r => {
-        object = r;
-      })
-      .catch(e => {
-        throw(e);
-      });
-
-  }
-
-  else if(ofType === CommentType){
-
-
-
-    await getCommentsList(source, args, context, info)
-      .then(r => {
-        object = r;
-      })
-      .catch(e => {
-        throw(e);
-      });
-
-  }
-
-
-  if(ofType === WsConnectionType){
-
-    await getWsConnectionsList(source, args, context, info)
-      .then(r => {
-
-        object = r;
-
-
-
-      })
-      .catch(e => {
-        throw(e);
-      });
-      
-  }
-
-
-  if(ofType === RedirectType){
-
-    await getRedirects(source, args, context, info)
-      .then(r => {
-
-        object = r;
-
-
-
-      })
-      .catch(e => {
-        throw(e);
-      });
-      
-  }
-
-
-  if(ofType === SiteContentType){
-
-    await getSiteContentList(source, args, context, info)
-      .then(r => {
-
-        object = r;
-
-
-
-      })
-      .catch(e => {
-        throw(e);
-      });
-      
-  }
-
-
-  if(ofType === EditVersionType){
-
-    await getEditVersionList(source, args, context, info)
-      .then(r => {
-
-        object = r;
-
-
-
-      })
-      .catch(e => {
-        throw(e);
-      });
-      
-  }
-
-
-  return object;
-}
-
-
-
-const getObjects = async (ofType, source, args, context, info) => {
-
-  let result;
-
-
-
-  await getObjectsList(ofType, source, args, context, info)
-    .then(r => {
-      result = r;
-    });
-    
-  result = result && result.object;
-
-  return result;
-
-}
-
-const getObject = async (ofType, source, args, context, info) => {
-
-  let state;
-
-  const {
-    id,
-    parent,
-  } = args;
-
-
-
-  await getObjects(ofType, source, args, context, info)
-    .then(r => {
-
-      state = r;
-    });
-
-
-  return state && state[0];
-}
+//     return result;
+// }
  
 
 export default rootResolver;
+
+

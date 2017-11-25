@@ -132,8 +132,6 @@ export default class Router {
 
   loadData = async () => {
 
-    return;
-
 
     await this.loadApiData();
 
@@ -703,6 +701,8 @@ export default class Router {
     const decodedURI = decodeURI(req.url).replace(/\@[0-9\.\,]+/, '');
 
 
+    console.log("processMainRequest");
+
     // Яндекс наиндексировал херни
     let redirectMatch;
 
@@ -899,6 +899,8 @@ export default class Router {
         })
         .then(r => {
 
+          console.log("Router SiteContent result", r);
+
           return r.data;
         })
         .catch(e => {
@@ -917,11 +919,14 @@ export default class Router {
           siteContent,
         } = resourceData || {};
 
-        const {
+        let {
           status,
           state: resourceState,
         } = siteContent || {};
 
+        if(!siteContent){
+          status = 404;
+        }
         
         /*
           Если статус 404, то смотрим редиректы

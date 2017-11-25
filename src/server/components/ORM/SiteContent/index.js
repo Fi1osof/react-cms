@@ -1,21 +1,21 @@
 
 
-import {
-  MainApp,
-  MainPage,
-  TopicsPage,
-  NotFoundPage,
-  DbPage,
-  CompaniesPage,
-  CompanyPage,
-  OtzivyPage,
-  UsersPage,
-  CommentsPage,
-  RatingsPage,
-  ContactsPage,
-  CRMPage,
-  CompaniesEditsPage,
-} from 'modules/Site';
+// import {
+//   MainApp,
+//   MainPage,
+//   TopicsPage,
+//   NotFoundPage,
+//   DbPage,
+//   CompaniesPage,
+//   CompanyPage,
+//   OtzivyPage,
+//   UsersPage,
+//   CommentsPage,
+//   RatingsPage,
+//   ContactsPage,
+//   CRMPage,
+//   CompaniesEditsPage,
+// } from 'modules/Site';
 
 
 export const getList = (object, args, context, info) => {
@@ -25,6 +25,8 @@ export const getList = (object, args, context, info) => {
     localQuery,
   } = context;
 
+
+  console.log("SiteContent args", args);
 
   return new Promise( async (resolve, reject) => {
 
@@ -179,13 +181,6 @@ export const getList = (object, args, context, info) => {
 
           }
 
-          // object = {
-          //   id,
-          //   status: 200,
-          //   title: name,
-          //   state: Object.assign(result.data, {cities}),
-          // };
-
         }
 
       }
@@ -232,10 +227,6 @@ export const getList = (object, args, context, info) => {
 
       }
 
-      // let requestedCity = paramsCity && cities && cities.find(n => n.alias === paramsCity);
-
-
-
       if(requestedCity && requestedCity.coords){
 
         contentCoords = requestedCity.coords;
@@ -271,16 +262,6 @@ export const getList = (object, args, context, info) => {
 
     }
 
-
-    // const {
-    //   params,
-    //   location,
-    //   routes,
-    // } = renderProps;
-
-
-
-
     const {
       1: baseRouter,
     } = routes || [];
@@ -290,29 +271,9 @@ export const getList = (object, args, context, info) => {
       component: Component,
     } = baseRouter || {};
 
-
-    // let component = "MainPage";
-
-    if(Component){
-
-      // switch(Component){
-
-      //   // Страница компаний
-      //   case CompaniesPage:
-
-      //     component = "CompaniesPage";
-
-      //     break;
-
-      // }
-
-    }
-    else{
+    if(!Component){
       reject("Не был получен базовый компонент");
     }
-
-
- 
 
 
     let coords = contentCoords;
@@ -340,13 +301,6 @@ export const getList = (object, args, context, info) => {
         // resources,
       } = r.data;
 
-
-
-      // this.setState({
-      //   ratings,
-      //   cities,
-      // });
-
       cities = resources;
 
     })
@@ -366,7 +320,6 @@ export const getList = (object, args, context, info) => {
     let requestedCity = paramsCity && cities && cities.find(n => n.alias === paramsCity);
 
 
-
     if(requestedCity && requestedCity.coords){
 
       if(!paramsLat || !paramsLng){
@@ -374,9 +327,6 @@ export const getList = (object, args, context, info) => {
         coords = requestedCity.coords;
 
       }
-
-      // Получаем обновленный список ближайших городов
-
 
 
       await localQuery({
@@ -390,17 +340,8 @@ export const getList = (object, args, context, info) => {
       .then(r => {
 
         const {
-          // ratings,
           resources,
-          // resources,
         } = r.data;
-
-
-
-        // this.setState({
-        //   ratings,
-        //   cities,
-        // });
 
         cities = resources;
 
@@ -415,143 +356,8 @@ export const getList = (object, args, context, info) => {
 
     }
 
-    // Ближайший город
-    // const {
-    //   0: nearedCity,
-    // } = cities || {};
-
-    // const {
-    //   longtitle: cityLongtitle,
-    // } = nearedCity || {};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // if(component){
-
-    // switch(Component){
-
-    //   // Страница компаний
-    //   case CompaniesPage:
-
-    //     companyId = companyId || debugCompanyId;
-    //     // city = city || debugCity;
-
-
-
-    //     // console.log("Company page aqual variables", {
-    //     //   resourceUri: relativePathname,
-    //     // });
-
-    //     /*
-    //       Если указан companyId, то это конечная страница компании
-    //     */
-    //     if(companyId){
-
-    //       // const result = await localQuery({
-    //       //   operationName: "CompanyByUri",
-    //       //   variables: {
-    //       //     resourceUri: relativePathname,
-    //       //   },
-    //       // })
-    //       // .then(r => {
-            
-
-    //       //   return r;
-
-    //       // })
-    //       // .catch(e => {
-    //       //   reject(e);
-    //       // });
-
-    //       // // resolve(result && result.data);
-
-    //       // const {
-    //       //   company,
-    //       // } = result && result.data || {};
-
-    //       // if(company){
-
-    //       //   const {
-    //       //     id,
-    //       //     name,
-    //       //   } = company;
-
-    //       //   object = {
-    //       //     id,
-    //       //     status: 200,
-    //       //     title: name,
-    //       //     state: Object.assign(result.data, {cities}),
-    //       //   };
-
-    //       // }
-
-    //     }
-    //     else{
-
-    //       // if(!city){
-    //       //   reject("Не был получен город");
-    //       // }
-
-
-    //       // Получаем список компаний
-    //       // const result = await localQuery({
-    //       //   operationName: "MapCompanies",
-    //       //   variables: {
-    //       //     limit: 12,
-    //       //     withPagination: true,
-    //       //     companiesCenter: coords,
-    //       //     page,
-    //       //   },
-    //       // })
-    //       // .then(r => {
-            
-
-    //       //   return r;
-
-    //       // })
-    //       // .catch(e => {
-    //       //   reject(e);
-    //       // });
-
-
-    //     }
-
-    //     break;
-
-    // }
-
-    // }
-    // else{
-    //   throw("Не был получен базовый компонент");
-    // }
-
-    // let {
-    //   // sort,
-    //   ...other
-    // } = args;
-
-    // let params = {...other};
-
-    // // params.limit = 3;
-
-    // let request = SendMODXRequest(action, params); 
 
     let result;
-
 
     const {
       loadServerData,
@@ -570,10 +376,8 @@ export const getList = (object, args, context, info) => {
       };
         
 
-
       result = await loadServerData.call(this, localQuery, options)
       .then(r => {
-        
 
         return r;
 
@@ -583,31 +387,6 @@ export const getList = (object, args, context, info) => {
       });
 
     }
-
-    // resolve(result && result.data);
-
-    // const {
-    //   company,
-    // } = result && result.data || {};
-
-    // if(company){
-
-    //   const {
-    //     id,
-    //     name,
-    //   } = company;
-
-    //   object = {
-    //     id,
-    //     status: 200,
-    //     title: name,
-    //     state: result.data,
-    //   };
-
-    // }
-
-
-    // console.log("Server SiteContent loadServerData result", result);
 
     if(result && result.data){
 

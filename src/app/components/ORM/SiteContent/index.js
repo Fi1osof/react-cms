@@ -137,53 +137,53 @@ export const SiteContentArgs = {
 };
 
 
-// export const getList = (source, args, context, info) => {
+export const getList = (source, args, context, info) => {
 
 
-//   const {
-//   } = args;
+  const {
+  } = args;
 
 
  
 
-//   const {
-//     remoteResolver,
-//   } = context;
+  const {
+    remoteResolver,
+  } = context;
 
-//   if(!remoteResolver){
-//     throw("remoteResolver undefined");
-//   }
-
-
-//   return new Promise(async (resolve, reject) => {
-
-//     try{
-
-//       const result = await remoteResolver(null, args, context, info);
+  if(!remoteResolver){
+    throw("remoteResolver undefined");
+  }
 
 
+  return new Promise(async (resolve, reject) => {
 
-//       // if(result && result.success){
+    try{
 
-//       //   resolve(result);
+      const result = await remoteResolver(null, args, context, info);
 
-//       // }
-//       // else{
-//       //   reject(result);
-//       // }
 
-//       resolve( result && List([result]) || null);
 
-//       // resolve(result);
+      // if(result && result.success){
 
-//     }
-//     catch(e){
-//       reject(e);
-//     }
+      //   resolve(result);
 
-//   });
+      // }
+      // else{
+      //   reject(result);
+      // }
 
-// };
+      resolve( result && List([result]) || null);
+
+      // resolve(result);
+
+    }
+    catch(e){
+      reject(e);
+    }
+
+  });
+
+};
 
 
 export default SiteContentType;
