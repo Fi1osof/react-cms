@@ -1,0 +1,19 @@
+{
+  "name": "react-cms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fi1osof/react-cms.git"
+  },
+  "author": "Fi1osof",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fi1osof/react-cms/issues"
+  },
+  "homepage": "https://github.com/Fi1osof/react-cms#readme"
+}
