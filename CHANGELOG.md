@@ -1,3 +1,8 @@
+1.0.5
+===============================================
+- Added App::loadApiData
+- Added App:saveItem
+
 1.0.4
 ===============================================
 - Restore MODXRequest.data on error
