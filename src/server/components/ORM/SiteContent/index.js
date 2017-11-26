@@ -110,6 +110,7 @@ export const getList = (object, args, context, info) => {
       tag: paramsTag,
       commentId: paramsCommentId,
       username: paramsUsername,
+      ratingType: paramsRatingType,
     } = params;
 
     paramsLat = paramsLat && parseFloat(paramsLat) || undefined;
@@ -119,6 +120,7 @@ export const getList = (object, args, context, info) => {
     paramsTag = paramsTag && decodeURI(paramsTag) || undefined;
     paramsCommentId = paramsCommentId && parseInt(paramsCommentId) || undefined;
     paramsUsername = paramsUsername && decodeURI(paramsUsername) || undefined;
+    paramsRatingType = paramsRatingType && decodeURI(paramsRatingType) || undefined;
 
 
     companyId = companyId || debugCompanyId;
@@ -567,6 +569,7 @@ export const getList = (object, args, context, info) => {
         tag: paramsTag,
         commentId: paramsCommentId,
         username: paramsUsername,
+        ratingType: paramsRatingType,
       };
         
 
