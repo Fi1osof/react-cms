@@ -1388,7 +1388,10 @@ export default class Router {
     // console.log()
 
     if(result){
-      result.data = result.object;
+      
+      if(result.success){
+        result.data = result.object;
+      }
       result.count = result.object && Array.isArray(result.object) ? result.object.length : result.object ? 1 : 0;
     }
 
