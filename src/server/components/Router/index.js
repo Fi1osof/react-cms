@@ -91,6 +91,7 @@ export default class Router {
     this.MainApp = MainApp;
     this.Response = Response;
     this.site_url = site_url;
+    this.prefix = prefix;
 
     knex = require('knex')(db_config);
 
@@ -514,10 +515,10 @@ export default class Router {
     //   * */
     
 
-    router.post('/api/', this.processPostRequest);
+    router.post('/api/', ::this.processPostRequest);
 
 
-    router.use('/', this.processMainRequest);
+    router.use('/', ::this.processMainRequest);
 
 
     return router;
@@ -525,7 +526,7 @@ export default class Router {
   };
 
 
-  processPostRequest = (req, res, next) => {
+  processPostRequest(req, res, next){
 
 
     const request = Object.assign(req.query, req.body);
@@ -694,14 +695,14 @@ export default class Router {
   };
 
 
-  processMainRequest = (req, res) => {
+  processMainRequest(req, res){
     
     const url = req.url;
 
     const decodedURI = decodeURI(req.url).replace(/\@[0-9\.\,]+/, '');
 
 
-    console.log("processMainRequest");
+    // console.log("processMainRequest");
 
     // Яндекс наиндексировал херни
     let redirectMatch;
@@ -776,6 +777,7 @@ export default class Router {
 
       if (!renderProps) { // мы не определили путь, который бы подошел для URL
 
+        const prefix = this.prefix;
 
         // if(!prevent){
 
@@ -899,7 +901,7 @@ export default class Router {
         })
         .then(r => {
 
-          console.log("Router SiteContent result", r);
+          // console.log("Router SiteContent result", r);
 
           return r.data;
         })
