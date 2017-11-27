@@ -48,6 +48,13 @@ import {
 // import {stateToHTML} from 'draft-js-export-html';
 
 
+import ImageControl from './toolbar/Image';
+import ImageRenderer from './renderer/Image';
+// import Cropper from './renderer/Image/Cropper';
+
+import GalleryControl from './toolbar/Gallery';
+import GalleryRenderer from './renderer/Gallery';
+
 export class Editor extends EditorProto{
 
 	render() {
@@ -131,6 +138,8 @@ export class TextField extends Component {
 
   static contextTypes = {
     // styleManager: customPropTypes.muiRequired,
+    connector_url: PropTypes.string.isRequired,
+    documentActions: PropTypes.object.isRequired,
   };
 
 
@@ -227,7 +236,7 @@ export class TextField extends Component {
   }
 
 
-	onEditorChange(editorState){
+	onEditorStateChange(editorState){
 
 		// let value = editorState && stateToHTML(editorState.getCurrentContent());
 
@@ -282,6 +291,177 @@ export class TextField extends Component {
 
 	}
 
+  uploadImageCallBack = (file) => {
+    // console.log('uploadImageCallBack', file);
+
+    const {
+      connector_url,
+      documentActions,
+    } = this.context;
+
+    // console.log('uploadImageCallBack', this, this);
+
+    // let {documentActions} = this.props;
+
+    return new Promise(
+      (resolve, reject) => {
+
+
+        var body = new FormData();
+
+        body.append('file', file);
+
+        fetch(connector_url +'?pub_action=images/upload',{
+          credentials: 'same-origin',
+          method: "POST",
+          body: body,
+        })
+          .then(function (response) {
+            return response.json()
+          })
+          .then(function (data) {
+
+            // console.log('data', data);
+
+            if(data.success){
+
+              if(data.object && data.object.url){
+
+                resolve({ data: { link: data.object.url } });
+
+                // this.setState({
+                //   url: data.object.url,
+                // })
+              }
+            }
+            else{
+              // this.setState({
+              //   // is_forgot: true
+              // });
+              // alert(data.message || "Ошибка выполнения запроса");
+              // this.props.userActions.GetOwnDataFailed(data);
+              documentActions.addInformerMessage(data.message || "Ошибка выполнения запроса");
+
+              reject();
+            }
+          }.bind(this))
+          .catch((error) => {
+              console.error('Request failed', error);
+              // alert("Ошибка выполнения запроса");
+              documentActions.addInformerMessage("Ошибка выполнения запроса");
+
+              reject();
+            }
+          );
+      }
+    );
+  }
+
+
+  onStartEdit = () => {
+    if(this.state.sudo){
+      this.setState({
+        readOnly: true,
+      });
+    }
+  }
+
+  onEndEdit = () => {
+    if(this.state.sudo){
+      this.setState({
+        readOnly: false,
+      });
+    }
+  }
+
+
+  blockRenderer = (block, config, getEditorState) => {
+
+    // console.log('_blockRenderer', this, getEditorState, block, block.getType());
+    // console.log('_blockRenderer', block.getType());
+    // console.log('_blockRenderer config', config);
+    // console.log('_blockRenderer getEditorState', getEditorState);
+    // console.log('_blockRenderer currentContent', getEditorState().getCurrentContent());
+
+
+
+    let {toolbar} = this.props;
+
+    let key = block.getEntityAt(0);
+    if(key){
+
+      let entity = getEditorState().getCurrentContent().getEntity(block.getEntityAt(0));
+      // console.log('_blockRenderer currentContent getEntity', entity, entity && entity.getType());
+
+      if(entity){
+
+        let rendererProps = {
+          config: config,
+          onStartEdit: this.onStartEdit, 
+          onEndEdit: this.onEndEdit, 
+          onChange: ::this.onEditorStateChange,
+          handlePastedText: this.handlePastedText,
+          uploadImageCallBack: this.uploadImageCallBack,
+          blockRenderer: this.blockRenderer,
+        }
+
+        switch(entity.getType()){
+
+          case 'COLUMNS':
+            return {
+              component: ColumnsRenderer,
+              editable: false,
+              props: Object.assign(rendererProps, {
+                toolbar: toolbar,
+              }),
+            };
+            break;
+
+          case 'IMAGE':
+            // console.log('_blockRenderer', block, block.getType(), ImageRenderer);
+            return {
+              component: ImageRenderer,
+              editable: false,
+              props: Object.assign(rendererProps, {
+                toggleCropper: this.imageEditorToggle,
+              }),
+            };
+            break;
+
+          case 'GALLERY':
+            console.log('_blockRenderer GalleryRenderer', block, block.getType(), GalleryRenderer);
+            return {
+              component: GalleryRenderer,
+              editable: false,
+              props: Object.assign(rendererProps, {
+                // toggleCropper: this.imageEditorToggle,
+              }),
+            };
+            break;
+        }
+      }
+    }
+
+    return null;
+  };
+
+
+  imageEditorToggle = (block) => {
+    console.log('imageEditorToggle', block);
+
+    if(!this.state.cropperOpened){
+      this.onStartEdit();
+    }
+    else{
+      this.onEndEdit();
+    }
+
+    this.setState({
+      cropperOpened: !this.state.cropperOpened,
+      croppingBlock: block,
+    });
+  }
+
 
 	render(){
 
@@ -298,7 +478,7 @@ export class TextField extends Component {
 	  return <Editor 
   		{...other}
   		editorState={editorState} 
-  		onEditorStateChange={::this.onEditorChange}
+  		onEditorStateChange={::this.onEditorStateChange}
 			readOnly={readOnly}
 			toolbarHidden={readOnly ? true : false}
 			wrapperClassName={["rdw-editor-wrapper", readOnly ? "readonly" : "editable"].join(" ")}
@@ -335,6 +515,30 @@ export class TextField extends Component {
       localization={{
         locale: 'ru',
       }}
+      toolbarCustomButtons={[
+        <ImageControl 
+          onExpandEvent={event => console.log('onExpandEvent', event)}
+          config={{
+            uploadEnabled: true,
+            urlEnabled: false,
+            uploadCallback: this.uploadImageCallBack,
+            title: "Изображение",
+          }}
+        />,
+        <GalleryControl 
+          onExpandEvent={event => console.log('GalleryControl onExpandEvent', event)}
+          config={{
+            uploadEnabled: true,
+            urlEnabled: false,
+            uploadCallback: this.uploadImageCallBack,
+            title: "Галерея",
+          }}
+        />,
+        // <Grid2Columns 
+        //   onExpandEvent={event => console.log('onExpandEvent', event)}
+        // />,
+      ]}
+      customBlockRenderFunc={this.blockRenderer}
   	/>;
 
 	}

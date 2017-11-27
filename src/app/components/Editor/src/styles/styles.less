@@ -35,10 +35,38 @@
 
 }
 
-.rdw-editor-toolbar{
+.rdw-editor-wrapper{
 
-	.rdw-link-modal{
-		height: auto;
+	.rdw-editor-toolbar{
+		display: flex;
+    	align-items: center;
+
+    	.rdw-option-wrapper 
+    	,.rdw-dropdown-wrapper
+    	,.rdw-image-wrapper
+    	{
+    		height: 26px;
+    	}
+
+    	.rdw-image-wrapper{
+    		border: 1px solid #F1F1F1; 
+		    padding-right: 3px;
+		    padding-left: 3px;
+		    margin-right: 4px;
+		    cursor: pointer;
+    	}
+
+		.rdw-link-modal{
+			height: auto;
+		}
 	}
-	
+
+	.rdw-editor-main { 
+	  overflow: inherit; 
+	}
+
+	figure{
+		margin: 0;
+    	padding: 0;
+	}
 }

@@ -31,6 +31,7 @@ export default class ReactCmsEditor extends Component {
 
 	  return <Editor 
   		{...other}
+      
   	/>;
 
 	}
