@@ -14,6 +14,7 @@ export default class App extends Component{
 
     this.loadApiData = ::this.loadApiData;
     this.saveItem = ::this.saveItem;
+    this.saveCommentItem = ::this.saveCommentItem;
   }
 
 
@@ -101,7 +102,7 @@ export default class App extends Component{
 
     return;
   }
-  
+
 
   async saveItem (store, item, connector_path, callback) {
 
@@ -304,6 +305,58 @@ export default class App extends Component{
     this.forceUpdate();
 
     return result;
+  }
+
+
+
+
+  async saveCommentItem (item) {
+    // 
+
+    // let {
+    //   CommentsStore: store,
+    // } = this.state;
+
+    // item = item && store.getState().find(n => n.id === item.id);
+
+    if(!item){
+      throw(new Error("Не был получен объект комментария"));
+    }
+
+    // let {
+    //   id: itemId,
+    // } = item;
+
+    // const callback = (data, errors) => { 
+
+    //   if(data.success && data.object){
+
+    //     // const {
+    //     //   id,
+    //     //   uri,
+    //     // } = data.object;
+
+    //     // if(id !== itemId){
+
+    //     //   // const uri = `/topics/${id}/`;
+          
+    //     //   browserHistory.replace(uri);
+    //     // }
+
+    //     this.reloadApiData();
+
+    //     return;
+    //   }
+    // }
+
+    let result = await this.saveItem(null, item, 'comment/');
+
+    await this.reloadApiData();
+
+    // console.log("saveCommentItem result", result);
+
+    return result;
+
   }
 
 }
