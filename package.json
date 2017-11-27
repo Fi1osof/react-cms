@@ -1,6 +1,6 @@
 {
   "name": "react-cms",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "For personal use. Not production.",
   "main": "src/index.js",
   "scripts": {

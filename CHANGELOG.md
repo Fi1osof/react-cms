@@ -1,3 +1,8 @@
+1.0.8
+===============================================
+- Added GraphQL CommentType
+- Added Gallery
+
 1.0.7
 ===============================================
 - Added App::saveCommentItem
