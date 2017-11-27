@@ -28,7 +28,7 @@ class ImageControl extends Component {
 
     super(props);
 
-    console.log('Image constructor props', props);
+    // console.log('Image constructor props', props);
     // console.log('Image constructor config', props.config);
   }
 

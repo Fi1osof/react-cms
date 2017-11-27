@@ -22,7 +22,7 @@ export default class EditorGallery extends Component {
 
     super(props);
 
-    console.log('EditorGallery constructor', props);
+    // console.log('EditorGallery constructor', props);
 
     this.state = {
 
@@ -38,9 +38,9 @@ export default class EditorGallery extends Component {
   //   onChange('color', color.hex);
   // }
 
-  componentWillReceiveProps(propTypes){
-    console.log('Grid2Columns componentWillReceiveProps', propTypes);
-  }
+  // componentWillReceiveProps(propTypes){
+  //   console.log('Grid2Columns componentWillReceiveProps', propTypes);
+  // }
 
   // renderModal = () => {
   //   // const { color } = this.props.currentState;

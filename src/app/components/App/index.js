@@ -91,7 +91,11 @@ export default class App extends Component{
     } = apiData || {};
     
 
+    // console.log("apiData", apiData);
+
+
     if(currentUser){
+    	
       this.props.userActions.GetOwnDataSuccess(currentUser);
 
       user = currentUser;
@@ -274,6 +278,13 @@ export default class App extends Component{
 
         this.forceUpdate();
       }
+    })
+    .then(r => {
+      return r;
+    })
+    .catch(e => {
+      item._sending = false;
+      throw(e);
     });
 
     // return;

@@ -429,7 +429,7 @@ export class TextField extends Component {
             break;
 
           case 'GALLERY':
-            console.log('_blockRenderer GalleryRenderer', block, block.getType(), GalleryRenderer);
+            // console.log('_blockRenderer GalleryRenderer', block, block.getType(), GalleryRenderer);
             return {
               component: GalleryRenderer,
               editable: false,
@@ -447,7 +447,7 @@ export class TextField extends Component {
 
 
   imageEditorToggle = (block) => {
-    console.log('imageEditorToggle', block);
+    // console.log('imageEditorToggle', block);
 
     if(!this.state.cropperOpened){
       this.onStartEdit();

@@ -134,7 +134,7 @@ class Gallery extends Component{
                 //   },
                 // });
 
-                console.log("GalleryEditor onUpload this", this);
+                // console.log("GalleryEditor onUpload this", this);
 
                 const {
                   onUpload,

@@ -36,6 +36,7 @@ import { EditorState } from 'draft-js';
 
 import { Editor as GalleryEditor } from 'react-cms/src/app/components/Gallery';
 
+import GallerySlider from 'react-cms/src/app/components/Gallery/Slider';
 
 export default class GalleryRenderer extends Component { 
 
@@ -96,7 +97,7 @@ export default class GalleryRenderer extends Component {
 
   onUpload(data){
 
-    console.log("GalleryRenderer onUpload this", this);
+    // console.log("GalleryRenderer onUpload this", this);
 
 
     const {
@@ -156,8 +157,8 @@ export default class GalleryRenderer extends Component {
         currentContent: updatedContentState
     });
 
-    console.log('updatedContentState', updatedContentState);
-    console.log('newEditorState', newEditorState);
+    // console.log('updatedContentState', updatedContentState);
+    // console.log('newEditorState', newEditorState);
 
     onChange(newEditorState);
 
@@ -184,7 +185,7 @@ export default class GalleryRenderer extends Component {
 
     onChange && onChange(newEditorState);
 
-    console.log('insertColumns', newEditorState, newEditorState);
+    // console.log('insertColumns', newEditorState, newEditorState);
   }
 
   // renderCropper = () => {
@@ -246,25 +247,52 @@ export default class GalleryRenderer extends Component {
   render(){
     const { block, contentState } = this.props;
 
-    const {
-      item,
-    } = this.state;
+    // console.log("block", block);
+
+    const entityKey = block.getEntityAt(0); 
+
+
+    const entity = contentState.getEntity(entityKey);
+    
+    // console.log("entity", entity);
+
+    // console.log("entity.getData()", entity.getData());
 
     const {
-      // inEditMode,
-      // isReadOnly,
+      gallery,
+    } = entity.getData();
+
+    let {
+      item,
+      inEditMode,
+      isReadOnly,
       // open,
     } = this.state;
 
-    const entity = contentState.getEntity(block.getEntityAt(0));
+    Object.assign(item, {
+      gallery,
+    });
+
+    // const entity = contentState.getEntity(block.getEntityAt(0));
     // const { src } = entity.getData();
 
     return (
       <div className="rdw-gallery-wrapper">
-        <GalleryEditor
-          item={item}
-          onUpload={(data) => this.onUpload(data)}
-        />
+
+        {!isReadOnly()
+          ?
+          <GalleryEditor
+            item={item}
+            onUpload={(data) => this.onUpload(data)}
+            updateItem={(a,b,c) => {
+              // console.log("updateItem", a,b,c);
+            }}
+          />
+          :
+          <GallerySlider 
+            gallery={item.gallery}
+          />
+        }
       </div>
     );
   }

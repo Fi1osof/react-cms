@@ -33,8 +33,8 @@ export default class ImageLayoutComponent extends Component {
 
     super(props);
 
-    console.log('constructor props', props);
-    console.log('constructor state', this.state);
+    // console.log('constructor props', props);
+    // console.log('constructor state', this.state);
   }
 
   componentWillReceiveProps(props: Object): void {

@@ -37,9 +37,9 @@ class Grid2Columns extends Component {
   //   onChange('color', color.hex);
   // }
 
-  componentWillReceiveProps(propTypes){
-    console.log('Grid2Columns componentWillReceiveProps', propTypes);
-  }
+  // componentWillReceiveProps(propTypes){
+  //   console.log('Grid2Columns componentWillReceiveProps', propTypes);
+  // }
 
   // renderModal = () => {
   //   // const { color } = this.props.currentState;
