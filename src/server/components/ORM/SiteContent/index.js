@@ -18,13 +18,18 @@ import {
 } from 'modules/Site';
 
 
+var debug = require('debug')("react-cms:sitecontent");
+
 export const getList = (object, args, context, info) => {
 
   const {
     SendMODXRequest,
     localQuery,
+    remoteQuery,
+    req,
   } = context;
 
+  // debug("args req.headers", req.headers);
 
   return new Promise( async (resolve, reject) => {
 
@@ -40,6 +45,13 @@ export const getList = (object, args, context, info) => {
       Иначе получаем объект города и только потом запрашиваем список всех городов с учетом удаленности.
     */
 
+    const {
+      headers,
+    } = req || {};
+
+    const {
+      cookie,
+    } = headers || {};
 
     const {
       request,
@@ -74,6 +86,37 @@ export const getList = (object, args, context, info) => {
 
 
 
+    const {
+      1: baseRouter,
+    } = routes || [];
+
+
+    const {
+      component: Component,
+    } = baseRouter || {};
+
+
+    // let component = "MainPage";
+
+    if(Component){
+
+      // switch(Component){
+
+      //   // Страница компаний
+      //   case CompaniesPage:
+
+      //     component = "CompaniesPage";
+
+      //     break;
+
+      // }
+
+    }
+    else{
+      reject("Не был получен базовый компонент");
+    }
+
+
     let {
       pathname,
       query,
@@ -84,6 +127,42 @@ export const getList = (object, args, context, info) => {
     if(!pathname){
       reject("Не был получен УРЛ");
     }
+
+    // Get current user
+
+    // debug("Start get CurrentUser");
+
+    let currentUser;
+
+    if(cookie && /PHPSESSID/.test(cookie)){
+
+      await localQuery({
+        operationName: "CurrentUser",
+        variables: {
+          limit: 0,
+          resourcesCenter: coords,
+        },
+        req,
+      })
+      .then(r => {
+      
+        // debug("CurrentUser result", r);
+
+        const {
+          user,
+          // resources,
+        } = r.data;
+
+        currentUser = user;
+
+      }).
+      catch(e => {
+        console.error(e);
+      });
+
+    }
+
+
 
 
     const {
@@ -281,37 +360,6 @@ export const getList = (object, args, context, info) => {
     // } = renderProps;
 
 
-
-
-    const {
-      1: baseRouter,
-    } = routes || [];
-
-
-    const {
-      component: Component,
-    } = baseRouter || {};
-
-
-    // let component = "MainPage";
-
-    if(Component){
-
-      // switch(Component){
-
-      //   // Страница компаний
-      //   case CompaniesPage:
-
-      //     component = "CompaniesPage";
-
-      //     break;
-
-      // }
-
-    }
-    else{
-      reject("Не был получен базовый компонент");
-    }
 
 
  
@@ -612,32 +660,40 @@ export const getList = (object, args, context, info) => {
 
     // console.log("Server SiteContent loadServerData result", result);
 
+    let title;
+
+    object = {
+      status: 200,
+      title: title || "Городские бани",
+      state: Object.assign({}, {cities, coords}),
+      user: currentUser || null,
+    };
+
     if(result && result.data){
 
       let {
         title,
       } = result.data || {};
 
-      object = {
-        // id,
-        status: 200,
-        title: title || "Городские бани",
-        state: Object.assign(result.data, {cities, coords}),
-      };
+      Object.assign(object.state, result.data);
+
+      title && Object.assign(object, {
+        title,
+      });
 
     }
     else{
 
-      object = {
-        // id,
+      Object.assign(object, {
         status: 404,
         title: "Страница не найдена",
         robots: "noindex,nofollow",
-      };
+      });
 
     }
 
 
+    // Подготовка конечного вывода
     let resources = [];
 
     object && resources.push(object);

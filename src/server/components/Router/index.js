@@ -898,6 +898,7 @@ export default class Router {
             // component,
             geo,
           },
+          req,
         })
         .then(r => {
 
@@ -924,6 +925,7 @@ export default class Router {
         let {
           status,
           state: resourceState,
+          user,
         } = siteContent || {};
 
         if(!siteContent){
@@ -978,6 +980,10 @@ export default class Router {
           // citiesData,
           geo,
           resourceState: siteContent || null,
+        });
+
+        Object.assign(state.user, {
+          user,
         });
 
         store = this.configureStore(state);

@@ -1,3 +1,9 @@
+1.0.6
+===============================================
+- Added SiteContent::user
+- Added pass req in remoteQuery
+- SiteContent output refactoring
+
 1.0.5
 ===============================================
 - Added App::loadApiData

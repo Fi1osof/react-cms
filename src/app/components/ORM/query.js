@@ -27,6 +27,7 @@ fragment SiteContent on SiteContentType{
   robots
   content
   state
+  user
   _errors
   _isDirty
 }

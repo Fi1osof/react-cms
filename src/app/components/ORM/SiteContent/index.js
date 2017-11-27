@@ -89,6 +89,10 @@ const SiteContentType = new GraphQLObjectType({
         type: GraphQLJSON,
         description: "Данные состояний",
       },
+      user: {
+        type: GraphQLJSON,
+        description: "Текущий пользователь",
+      },
       _errors: {
         type: GraphQLJSON,
         description: "Ошибки после попытки сохранения",
