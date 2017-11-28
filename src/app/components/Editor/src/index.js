@@ -133,8 +133,18 @@ export class Editor extends EditorProto{
 
 
 
-export class TextField extends Component {
+export default class TextField extends Component {
 
+  static defaultProps = {
+    // required: false,
+    toolbarImage: true,
+    toolbarGallery: true,
+  };
+
+  static propTypes = {
+    toolbarImage: PropTypes.bool.isRequired,
+    toolbarGallery: PropTypes.bool.isRequired,
+  };
 
   static contextTypes = {
     // styleManager: customPropTypes.muiRequired,
@@ -468,12 +478,36 @@ export class TextField extends Component {
 	  const {
 	    onChange,
 			readOnly,
+      toolbarImage,
+      toolbarGallery,
 	    ...other
 	  } = this.props;
 
 		const {
 			editorState,
 		} = this.state;
+
+    let toolbarCustomButtons = [];
+
+    toolbarImage && toolbarCustomButtons.push(<ImageControl 
+      onExpandEvent={event => console.log('onExpandEvent', event)}
+      config={{
+        uploadEnabled: true,
+        urlEnabled: false,
+        uploadCallback: this.uploadImageCallBack,
+        title: "Изображение",
+      }}
+    />);
+
+    toolbarGallery && toolbarCustomButtons.push(<GalleryControl 
+      onExpandEvent={event => console.log('GalleryControl onExpandEvent', event)}
+      config={{
+        uploadEnabled: true,
+        urlEnabled: false,
+        uploadCallback: this.uploadImageCallBack,
+        title: "Галерея",
+      }}
+    />);
 
 	  return <Editor 
   		{...other}
@@ -515,40 +549,11 @@ export class TextField extends Component {
       localization={{
         locale: 'ru',
       }}
-      toolbarCustomButtons={[
-        <ImageControl 
-          onExpandEvent={event => console.log('onExpandEvent', event)}
-          config={{
-            uploadEnabled: true,
-            urlEnabled: false,
-            uploadCallback: this.uploadImageCallBack,
-            title: "Изображение",
-          }}
-        />,
-        <GalleryControl 
-          onExpandEvent={event => console.log('GalleryControl onExpandEvent', event)}
-          config={{
-            uploadEnabled: true,
-            urlEnabled: false,
-            uploadCallback: this.uploadImageCallBack,
-            title: "Галерея",
-          }}
-        />,
-        // <Grid2Columns 
-        //   onExpandEvent={event => console.log('onExpandEvent', event)}
-        // />,
-      ]}
+      toolbarCustomButtons={toolbarCustomButtons}
       customBlockRenderFunc={this.blockRenderer}
   	/>;
 
 	}
 
 }
-
-TextField.defaultProps = {
-  required: false,
-};
-
-export default TextField;
-
 
