@@ -108,10 +108,49 @@ export default class App extends Component{
   }
 
 
-  async saveItem (store, item, connector_path, callback) {
+  updateItem(item, data, store, silent){
 
-    
-    
+    if(!item){
+      console.error("Не указан объект");
+      return false;
+    }
+
+    // if(!store){
+    //   console.error("Не указано хранилище");
+    //   return false;
+    // }
+
+    let newState = {};
+
+    Object.assign(newState, data);
+
+    if(!silent){
+      
+      let _isDirty = {};
+
+      item._isDirty && Object.assign(_isDirty, item._isDirty);
+
+      Object.assign(_isDirty, newState);
+
+      newState._isDirty = _isDirty;
+
+    }
+
+    if(store){
+
+      store.getDispatcher().dispatch(store.actions['UPDATE'], item, newState);
+
+    }
+    else{
+      Object.assign(item, newState);
+    }
+
+
+    return item;
+  }
+
+
+  saveItem = async (store, item, connector_path, callback) => {
     
 
     let {
@@ -151,8 +190,6 @@ export default class App extends Component{
     }
 
     item._sending = true;
-
-
       
     var action = id && id > 0 ? 'update' : 'create';
 
@@ -369,6 +406,92 @@ export default class App extends Component{
     return result;
 
   }
+
+
+  updateCurrentUser = (item, data, silent) => {
+
+
+    // item = item && UsersStore.getState().find(n => n.id === item.id);
+
+    // let {
+    //   user: {
+    //     user: item,
+    //   },
+    // } = this.props;
+
+    const currentUser = this.getCurrentUser();
+
+    // console.log("currentUser", currentUser);
+
+    if(!currentUser){
+      throw(new Error("Не был получен объект пользователя 2"));
+    }
+
+    return this.updateItem(currentUser, data, null, silent);
+  }
+
+
+  getCurrentUser = () => {
+    
+    let {
+      user: {
+        user: currentUser,
+      },
+    } = this.props;
+
+    return currentUser;
+
+  }
+
+  saveCurrentUser = (item) => {
+    // 
+    // let {
+    //   user: {
+    //     user: item,
+    //   },
+    // } = this.props;
+
+    // let {
+    //   UsersStore,
+    // } = this.state;
+
+    // item = item && UsersStore.getState().find(n => n.id === item.id);
+
+    const currentUser = this.getCurrentUser();
+
+    if(!currentUser){
+      throw(new Error("Не был получен объект пользователя"));
+    }
+
+    // let {
+    //   id: itemId,
+    // } = item;
+
+    // const callback = (data, errors) => { 
+
+    //   if(data.success && data.object){
+
+    //     // const {
+    //     //   id,
+    //     //   uri,
+    //     // } = data.object;
+
+    //     // if(id !== itemId){
+
+    //     //   // const uri = `/topics/${id}/`;
+          
+    //     //   browserHistory.replace(uri);
+    //     // }
+
+    //     this.reloadApiData();
+
+    //     return;
+    //   }
+    // }
+
+    return this.saveItem(null, currentUser, 'user/own_profile/');
+  }
+
 
 }
 
