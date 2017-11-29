@@ -55,6 +55,11 @@ import ImageRenderer from './renderer/Image';
 import GalleryControl from './toolbar/Gallery';
 import GalleryRenderer from './renderer/Gallery';
 
+import CompanyControl from './toolbar/Company';
+import CompanyControlLayout from './toolbar/Company/Component';
+import getCompanyDecorator from './decorators/Company';
+// import GalleryRenderer from './renderer/Gallery';
+
 export class Editor extends EditorProto{
 
 	render() {
@@ -139,11 +144,13 @@ export default class TextField extends Component {
     // required: false,
     toolbarImage: true,
     toolbarGallery: true,
+    toolbarCompany: true,
   };
 
   static propTypes = {
     toolbarImage: PropTypes.bool.isRequired,
     toolbarGallery: PropTypes.bool.isRequired,
+    toolbarCompany: PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -394,6 +401,10 @@ export default class TextField extends Component {
     // console.log('_blockRenderer currentContent', getEditorState().getCurrentContent());
 
 
+    const {
+      editorState,
+    } = this.state;
+
 
     let {toolbar} = this.props;
 
@@ -413,6 +424,9 @@ export default class TextField extends Component {
           handlePastedText: this.handlePastedText,
           uploadImageCallBack: this.uploadImageCallBack,
           blockRenderer: this.blockRenderer,
+          // currentState: {
+
+          // },
         }
 
         switch(entity.getType()){
@@ -473,6 +487,16 @@ export default class TextField extends Component {
   }
 
 
+  componentWillMount(){
+
+    this.customDecorators = [
+      getCompanyDecorator({}),
+    ];
+
+    super.componentWillMount && super.componentWillMount();
+  }
+
+
 	render(){
 
 	  const {
@@ -480,6 +504,7 @@ export default class TextField extends Component {
 			readOnly,
       toolbarImage,
       toolbarGallery,
+      toolbarCompany,
 	    ...other
 	  } = this.props;
 
@@ -506,6 +531,27 @@ export default class TextField extends Component {
         urlEnabled: false,
         uploadCallback: this.uploadImageCallBack,
         title: "Галерея",
+      }}
+    />);
+
+
+    toolbarCompany && toolbarCustomButtons.push(<CompanyControl 
+      onExpandEvent={event => console.log('CompanyControl onExpandEvent', event)}
+      config={{
+        uploadEnabled: true,
+        urlEnabled: false,
+        // uploadCallback: this.uploadImageCallBack,
+        title: "Компания",
+        inDropdown: false,
+        className: undefined,
+        component: CompanyControlLayout,
+        popupClassName: undefined,
+        dropdownClassName: undefined,
+        showOpenOptionOnHover: true,
+        defaultTargetOption: '_self',
+        options: ['link'],
+        link: { className: undefined, title: "Компания" },
+        // unlink: {  className: undefined, title: undefined },
       }}
     />);
 
@@ -551,6 +597,7 @@ export default class TextField extends Component {
       }}
       toolbarCustomButtons={toolbarCustomButtons}
       customBlockRenderFunc={this.blockRenderer}
+      customDecorators={this.customDecorators}
   	/>;
 
 	}
