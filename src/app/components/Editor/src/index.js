@@ -289,7 +289,7 @@ export default class TextField extends Component {
 
       const plainText = currentContent.getPlainText(); 
 
-      onChange(event, plainText);
+      onChange(event, plainText, editorState);
 
     } 
 

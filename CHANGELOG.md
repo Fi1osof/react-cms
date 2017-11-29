@@ -1,11 +1,14 @@
 
+1.0.12
+===============================================
+- Added Editor return editorState onChange
+
 1.0.11
 ===============================================
 - Added App::updateItem
 - Added App::updateCurrentUser
 - Added App::getCurrentUser
 - Added App::saveCurrentUser
-
 
 1.0.10
 ===============================================
