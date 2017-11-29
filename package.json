@@ -1,19 +1,23 @@
 {
-  "name": "react-cms",
-  "version": "1.0.12",
-  "description": "For personal use. Not production.",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "author": {
+    "name": "Fi1osof"
   },
+  "bugs": {
+    "url": "https://github.com/Fi1osof/react-cms/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "For personal use. Not production.",
+  "homepage": "https://github.com/Fi1osof/react-cms#readme",
+  "license": "ISC",
+  "main": "src/index.js",
+  "name": "react-cms",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Fi1osof/react-cms.git"
   },
-  "author": "Fi1osof",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Fi1osof/react-cms/issues"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/Fi1osof/react-cms#readme"
+  "version": "1.0.13"
 }

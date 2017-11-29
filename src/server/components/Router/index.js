@@ -69,6 +69,8 @@ export default class Router {
     //   return this.SendMODXRequest(action, params, req);
     // }
 
+    this.inited = false;
+
     const {
       config,
       db_config,
@@ -138,9 +140,11 @@ export default class Router {
 
     // this.loadMapData();
 
-    this.loadCitiesData();
+    await this.loadCitiesData();
 
     this.loadRedirects();
+
+    this.inited = true;
 
     return true;
   }
@@ -697,6 +701,13 @@ export default class Router {
 
   processMainRequest(req, res){
     
+    if(!this.inited){
+
+      console.error("Сервер все еще запускается");
+
+      return res.status(503).send("Сервис запускается");
+    }
+
     const url = req.url;
 
     const decodedURI = decodeURI(req.url).replace(/\@[0-9\.\,]+/, '');
