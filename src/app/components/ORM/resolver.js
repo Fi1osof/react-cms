@@ -253,6 +253,7 @@ export const processState = function(state, args, context, info){
     let {
       id,
       ids,
+      excludeIds,
       parent,
       offset,
       limit,
@@ -271,6 +272,16 @@ export const processState = function(state, args, context, info){
     if(ids){
 
       state = state.filter(n => ids.indexOf(n.id) !== -1);
+
+    }
+
+    if(excludeIds){
+
+      excludeIds.map(id => {
+
+        state = state.filter(n => n.id !== id);
+
+      })
 
     }
 

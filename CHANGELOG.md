@@ -1,4 +1,12 @@
 
+1.0.14
+===============================================
+- Added GraphQL Types: order, SortBy, SortField, listArgs
+- Added GraphQL arg excludeIds
+- Remove Page::onPageChange()
+- Added Page::onLocationChanged()
+
+
 1.0.13
 ===============================================
 - Added 503 Error

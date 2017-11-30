@@ -124,3 +124,75 @@ export const imageType = {
     return image && image.replace(/^\//g, '') || null;
   },
 };
+
+export const order = {
+  type: new GraphQLEnumType({
+    name: "SortType",
+    values: {
+      asc: {
+        value: 'asc',
+        description: 'В прямом порядке',
+      },
+      desc: {
+        value: 'desc',
+        description: 'В обратном порядке',
+      },
+    },
+  }),
+  description: 'Порядок сортировки',
+};
+
+export const SortBy = new GraphQLInputObjectType({
+  name: "SortBy",
+  fields: {
+    by: {
+      type: new GraphQLEnumType({
+        name: 'SortByValues',
+        values: {
+          id: {
+            value: 'id',
+            description: 'По ID',
+          },
+          rand: {
+            value: 'rand()',
+            description: 'В случайном порядке',
+          },
+        },
+      }),
+      description: 'Способ сортировки',
+    },
+    dir: order,
+  },
+});
+
+export const SortField = {
+  type: new GraphQLList(SortBy),
+};
+
+export const listArgs = {
+  ids: {
+    type: new GraphQLList(GraphQLInt),
+    description: 'Список ID',
+  },
+  excludeIds: {
+    type: new GraphQLList(GraphQLInt),
+    description: 'С какими ID исключить объекты',
+  },
+  search: {
+    type: GraphQLString,
+    description: 'Поисковый запрос',
+  },
+  sort: SortField,
+  limit: {
+    type: new GraphQLNonNull(GraphQLInt),
+    description: 'Лимит записей',
+  },
+  page: {
+    type: GraphQLInt,
+    description: 'Страница',
+  },
+  offset: {
+    type: GraphQLInt,
+    description: 'Сколько записей пропустить',
+  },
+};

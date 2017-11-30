@@ -105,6 +105,24 @@ export default class Page extends Component{
 
 	}
 
+// componentDidUpdate(prevProps, prevState, prevContext){
+
+//     const {
+//       location,
+//     } = this.props;
+
+//     const {
+//       location: prevLocation,
+//     } = prevProps;
+
+//     console.log("componentDidUpdate", location, prevLocation, location === prevLocation);
+
+//     // if((username || prevUsername) && username !== prevUsername){
+//     //   this.reloadData();
+//     // }
+
+//     super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, prevContext);
+//   }
 
   componentDidUpdate(prevProps, prevState, prevContext){
 
@@ -117,19 +135,19 @@ export default class Page extends Component{
     } = prevContext || {};
 
 
-		const page = this.getPage();
+		// const page = this.getPage();
 
-		const {
-			location,
-		} = prevProps;
+		// const {
+		// 	location,
+		// } = prevProps;
 
-		const {
-			query: prevLocationQuery,
-		} = location || {};
+		// const {
+		// 	query: prevLocationQuery,
+		// } = location || {};
 
-		const {
-			page: prevPage,
-		} = prevLocationQuery || {};
+		// const {
+		// 	page: prevPage,
+		// } = prevLocationQuery || {};
 
 
     if(
@@ -141,12 +159,25 @@ export default class Page extends Component{
     }
     	
 
-    if(
-    	(page || prevPage) && parseInt(page) !== parseInt(prevPage)
-    ){
+    // if(
+    // 	(page || prevPage) && parseInt(page) !== parseInt(prevPage)
+    // ){
 
-    	this.onPageChange();
+    // 	this.onPageChange();
 
+    // }
+
+
+    const {
+      location,
+    } = this.props;
+
+    const {
+      location: prevLocation,
+    } = prevProps;
+
+    if(location && prevLocation && location !== prevLocation){
+    	this.onLocationChanged();
     }
 
   }
@@ -163,6 +194,23 @@ export default class Page extends Component{
 
   	this.reloadData();
     	
+  }
+
+
+  async onLocationChanged(){
+
+  	// console.log("onLocationChanged");
+
+  	this.setState({
+  		pageReloading: true,
+  	});
+
+  	await this.reloadData();
+    
+  	this.setState({
+  		pageReloading: false,
+  	});
+
   }
 
 
