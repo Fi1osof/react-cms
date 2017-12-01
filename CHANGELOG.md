@@ -1,4 +1,8 @@
 
+1.0.15
+===============================================
+- Added PaymentMethod
+
 1.0.14
 ===============================================
 - Added GraphQL Types: order, SortBy, SortField, listArgs
