@@ -1005,6 +1005,8 @@ export default class Router {
 
         const MainApp = this.MainApp;
 
+        debug("ReactDom.renderToString");
+
         const componentHTML = ReactDom.renderToString(
           <MainApp
             appExports={appExports}
@@ -1019,6 +1021,8 @@ export default class Router {
 
         const stylesGenerated = appExports.theme && appExports.theme.sheetsToString();
 
+
+        debug("ReactDom.renderToString result");
 
 
 
@@ -1192,7 +1196,7 @@ export default class Router {
           <title>${title}</title>
           <meta name="description" content="${description}"> 
           <meta name="robots" content="${robots ? robots : "index, follow"}" />
-          <link rel="shortcut icon" href="/favicon.ico"/>
+          <link rel="shortcut icon" href="/assets/components/modxsite/templates/pivkarta/v2/favicon.ico"/>
           <base href="/" />
 
           <script>

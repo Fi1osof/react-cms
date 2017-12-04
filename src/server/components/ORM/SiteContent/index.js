@@ -134,33 +134,33 @@ export const getList = (object, args, context, info) => {
 
     let currentUser;
 
-    if(cookie && /PHPSESSID/.test(cookie)){
+    // if(cookie && /PHPSESSID/.test(cookie)){
 
-      await localQuery({
-        operationName: "CurrentUser",
-        variables: {
-          limit: 0,
-          resourcesCenter: coords,
-        },
-        req,
-      })
-      .then(r => {
+    //   await localQuery({
+    //     operationName: "CurrentUser",
+    //     variables: {
+    //       limit: 0,
+    //       resourcesCenter: coords,
+    //     },
+    //     req,
+    //   })
+    //   .then(r => {
       
-        // debug("CurrentUser result", r);
+    //     // debug("CurrentUser result", r);
 
-        const {
-          user,
-          // resources,
-        } = r.data;
+    //     const {
+    //       user,
+    //       // resources,
+    //     } = r.data;
 
-        currentUser = user;
+    //     currentUser = user;
 
-      }).
-      catch(e => {
-        console.error(e);
-      });
+    //   }).
+    //   catch(e => {
+    //     console.error(e);
+    //   });
 
-    }
+    // }
 
 
 
