@@ -136,6 +136,10 @@ export default class Router {
   loadData = async () => {
 
 
+    // knex.raw("SET SESSION group_concat_max_len = 10000000;").then().catch(e => {
+    //   console.error("SET SESSION Error", e);
+    // });
+
     await this.loadApiData();
 
     // this.loadMapData();
@@ -157,13 +161,11 @@ export default class Router {
       variables: {
         resourceExcludeTemplates: 0,
         getCompanyGallery: true,
-        getImageFormats: true,
+        getImageFormats: false,
       },
       req: {},
     })
     .then(r => {
-
-
 
       apiData = r.data;
 
@@ -1176,7 +1178,8 @@ export default class Router {
 
     // title = title && `${title} | ` || "";
 
-    title += !/Городские бани|Городские и общественные бани/ui.test(title) ? (title ? " | " : "") + 'Городские и общественные бани' : "";
+    // title += !/Городские бани|Городские и общественные бани/ui.test(title) ? (title ? " | " : "") + 'Городские и общественные бани' : "";
+    title += !/Пивная Карта/ui.test(title) ? (title ? " | " : "") + 'Пивная Карта' : "";
 
     description = description && description.replace('"', '\"') || '';
 

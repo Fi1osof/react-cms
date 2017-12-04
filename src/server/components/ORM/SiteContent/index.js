@@ -189,7 +189,10 @@ export const getList = (object, args, context, info) => {
       tag: paramsTag,
       commentId: paramsCommentId,
       username: paramsUsername,
+      userId: paramsUserId,
       ratingType: paramsRatingType,
+      placeType: paramsPlaceType,
+      albumId: paramsAlbumId,
     } = params;
 
     paramsLat = paramsLat && parseFloat(paramsLat) || undefined;
@@ -199,7 +202,12 @@ export const getList = (object, args, context, info) => {
     paramsTag = paramsTag && decodeURI(paramsTag) || undefined;
     paramsCommentId = paramsCommentId && parseInt(paramsCommentId) || undefined;
     paramsUsername = paramsUsername && decodeURI(paramsUsername) || undefined;
+    paramsUserId = paramsUserId && parseInt(paramsUserId) || undefined;
     paramsRatingType = paramsRatingType && decodeURI(paramsRatingType) || undefined;
+    paramsAlbumId = paramsAlbumId && parseInt(paramsAlbumId) || undefined;
+
+
+    // console.log("params", params);
 
 
     companyId = companyId || debugCompanyId;
@@ -298,6 +306,7 @@ export const getList = (object, args, context, info) => {
           } = r.data;
 
 
+          // console.log("requestedCity", r);
 
 
           requestedCity = resources && resources[0];
@@ -617,7 +626,10 @@ export const getList = (object, args, context, info) => {
         tag: paramsTag,
         commentId: paramsCommentId,
         username: paramsUsername,
+        userId: paramsUserId,
         ratingType: paramsRatingType,
+        placeType: paramsPlaceType,
+        albumId: paramsAlbumId,
       };
         
 
@@ -664,7 +676,7 @@ export const getList = (object, args, context, info) => {
 
     object = {
       status: 200,
-      title: title || "Городские бани",
+      title: title || "Пивная карта",
       state: Object.assign({}, {cities, coords}),
       user: currentUser || null,
     };
@@ -691,6 +703,9 @@ export const getList = (object, args, context, info) => {
       });
 
     }
+
+
+    // console.log("SiteContent object", object);
 
 
     // Подготовка конечного вывода

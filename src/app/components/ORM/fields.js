@@ -182,6 +182,10 @@ export const listArgs = {
     type: GraphQLString,
     description: 'Поисковый запрос',
   },
+  createdby: {
+    type: GraphQLInt,
+    description: 'Кем создан',
+  },
   sort: SortField,
   limit: {
     type: new GraphQLNonNull(GraphQLInt),

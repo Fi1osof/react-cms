@@ -1,6 +1,35 @@
 
 import React, {Component} from 'react';
 
+import {
+  buildSchema,
+  graphql,
+  // execute,
+  // parse,
+  GraphQLSchema,
+  // GraphQLObjectType,
+  // GraphQLInt,
+  // GraphQLFloat,
+  // GraphQLString,
+  // GraphQLBoolean,
+  // GraphQLList,
+  // GraphQLNonNull,
+  // GraphQLID,
+
+  // introspectionQuery, 
+  // buildClientSchema, 
+  // printSchema,
+} from 'graphql';
+
+import rootResolver from 'modules/Site/components/ORM/resolver';
+
+import RootType, {
+  Mutation,
+  rootDirectives,
+} from 'modules/Site/components/ORM';
+
+import defaultQuery from 'modules/Site/components/ORM/query';
+
 export default class App extends Component{
 
 
@@ -8,15 +37,36 @@ export default class App extends Component{
 
     super(props);
 
-    this.state = {};
+    // const orm = new ORM();
+    const schema = this.getSchema();
+
+    this.state = {
+      schema,
+    };
 
     Object.assign(this.state, this.createStores());
 
     this.loadApiData = ::this.loadApiData;
     this.saveItem = ::this.saveItem;
     this.saveCommentItem = ::this.saveCommentItem;
+
+    this.rootResolver = this.getRootResolver();
   }
 
+
+  getRootResolver(){
+    return rootResolver;
+  }
+
+  getSchema(){
+ 
+
+    return new GraphQLSchema({
+      query: RootType,
+      mutation: Mutation,
+    });
+
+  }
 
   createStores(){
 
@@ -492,6 +542,123 @@ export default class App extends Component{
     return this.saveItem(null, currentUser, 'user/own_profile/');
   }
 
+
+  localQuery = (graphQLParams) => {
+
+    const {
+      schema,
+    } = this.state;
+
+    // var schema = this._getSchema();
+
+    const rootResolver = this.getRootResolver();
+
+    const {
+      query,
+      operationName,
+      variables,
+    } = graphQLParams;
+ 
+
+    // return new Promise(resolve => resolve([{}]));
+
+    return new Promise((resolve, reject) => {
+
+      // class user {
+
+      //   constructor(props){
+
+      //     Object.assign(this, props);
+      //   }
+
+      // }
+
+      const {
+        ContactsStore,
+        PlacesStore,
+        PlaceContactsStore,
+      } = this.state;
+
+      graphql({
+        schema,
+        operationName,
+        source: query || defaultQuery,
+        // rootValue: {
+        //   contacts: ContactsStore.getState(),
+        //   places: PlacesStore.getState(),
+        //   contact_places: PlaceContactsStore.getState(),
+        // },
+        variableValues: variables || undefined,
+        // contextValue: this.getChildContext(),
+        contextValue: this,
+        fieldResolver: rootResolver,
+      }).then((result) => {
+
+        
+
+        let {
+          errors,
+        } = result;
+
+        if(errors && errors.length){
+          let {
+            message,
+            ...other
+          } = errors[0];
+
+          return reject(message, {...other});
+        }
+
+        resolve(result);
+      })
+      .catch(e => {
+        console.error(e);
+        reject(e);
+      });
+ 
+    });
+  }
+
+  remoteQuery = (graphQLParams) => {
+
+    if(typeof graphQLParams !== 'object'){
+      graphQLParams = {
+        query: graphQLParams,
+      };
+    }
+
+    const {
+      query,
+      operationName,
+      variables,
+    } = graphQLParams;
+
+    return new Promise((resolve, reject) => {
+
+      this.apiRequest(null, true, 'graphql', {
+        query,
+        operationName,
+        variables,
+      },{
+        callback: (data, errors) => {
+ 
+
+          if(data.success){
+             
+            return resolve(data);
+          }
+          else{
+
+
+
+            return reject(data);
+          }
+        },
+      });
+
+    });
+
+  }
 
 }
 
