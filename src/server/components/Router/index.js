@@ -17,7 +17,7 @@ var Model = require('objection').Model;
  
 // import Response from './components/response';
 
-var debug = require('debug')("react-cms:router");
+const debug = require('debug')("react-cms:router");
 
 import md5 from 'md5';
 
@@ -126,9 +126,23 @@ export default class Router {
     this.router = this.createRouter(options);
 
 
-    this.loadData();
+    this.init();
 
-    setInterval(this.loadData, 1000 * 300);
+  }
+
+
+  async init(){
+
+    await this.loadData();
+
+    this.setReloadDataInterval();
+
+  }
+
+
+  setReloadDataInterval(){
+
+    setInterval(::this.reloadData, 1000 * 600);
 
   }
 
@@ -151,6 +165,19 @@ export default class Router {
     this.inited = true;
 
     return true;
+  }
+
+
+  async reloadData(){
+    
+    debug("reloadData");
+
+    const result = await this.loadData();
+
+    debug("apiData reloaded");
+
+    return result;
+
   }
   
 
@@ -532,13 +559,22 @@ export default class Router {
   };
 
 
-  processPostRequest(req, res, next){
+  async processPostRequest(req, res, next){
 
+    const startTime = new Date().getTime();
+
+    debug("processPostRequest");
 
     const request = Object.assign(req.query, req.body);
 
 
-    return this.response.process(req, res, request);
+    const result = await this.response.process(req, res, request);
+
+    const endTime = new Date().getTime();
+
+    const diff = (endTime - startTime) / 1000;
+
+    debug("processPostRequest", `${diff.toFixed(3)} sec`);
 
   };
 
@@ -701,7 +737,11 @@ export default class Router {
   };
 
 
-  processMainRequest(req, res){
+  async processMainRequest(req, res){
+
+    const startTime = new Date().getTime();
+
+    debug("processMainRequest");
     
     if(!this.inited){
 
@@ -714,8 +754,6 @@ export default class Router {
 
     const decodedURI = decodeURI(req.url).replace(/\@[0-9\.\,]+/, '');
 
-
-    // console.log("processMainRequest");
 
     // Яндекс наиндексировал херни
     let redirectMatch;
@@ -745,7 +783,7 @@ export default class Router {
     }
 
 
-    match({ 
+    await match({ 
       routes: this.routes, 
       location: url,
     }, async (error, redirectLocation, renderProps) => {
@@ -1060,6 +1098,13 @@ export default class Router {
       return res.end(html);
     });
 
+
+    const endTime = new Date().getTime();
+
+    const diff = (endTime - startTime) / 1000;
+
+    debug("processMainRequest", `${diff.toFixed(3)} sec`);
+
     return;
   };
 
@@ -1187,6 +1232,8 @@ export default class Router {
 
     description = description && description.replace('"', '\"') || '';
 
+    const headerScripts = this.getHeaderScripts();
+
     return `
       <!DOCTYPE html>
         <html>
@@ -1199,46 +1246,7 @@ export default class Router {
           <link rel="shortcut icon" href="/assets/components/modxsite/templates/pivkarta/v2/favicon.ico"/>
           <base href="/" />
 
-          <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-            ga('create', 'UA-39491207-3', 'auto');
-            ga('send', 'pageview');
-          </script>
-          
-
-          <!-- Yandex.Metrika counter -->
-          <script type="text/javascript" >
-              (function (d, w, c) {
-                  (w[c] = w[c] || []).push(function() {
-                      try {
-                          w.yaCounter26848689 = new Ya.Metrika({
-                              id:26848689,
-                              clickmap:true,
-                              trackLinks:true,
-                              accurateTrackBounce:true,
-                              webvisor:true,
-                              trackHash:true
-                          });
-                      } catch(e) { }
-                  });
-
-                  var n = d.getElementsByTagName("script")[0],
-                      s = d.createElement("script"),
-                      f = function () { n.parentNode.insertBefore(s, n); };
-                  s.type = "text/javascript";
-                  s.async = true;
-                  s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-                  if (w.opera == "[object Opera]") {
-                      d.addEventListener("DOMContentLoaded", f, false);
-                  } else { f(); }
-              })(document, window, "yandex_metrika_callbacks");
-          </script>
-          <noscript><div><img src="https://mc.yandex.ru/watch/26848689" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-          <!-- /Yandex.Metrika counter -->
+          ${headerScripts}
         
           ${style && `<style>${style}</style>` || ""}
           
@@ -1295,6 +1303,12 @@ export default class Router {
     }
 
   }
+
+
+  getHeaderScripts(){
+    return '';
+  }
+
 
   async SendMODXRequest(action, params, req){
 
