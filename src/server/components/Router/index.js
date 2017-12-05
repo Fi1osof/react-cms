@@ -147,8 +147,11 @@ export default class Router {
   }
 
 
-  loadData = async () => {
+  async loadData() {
 
+
+
+    // debug("loadData main");
 
     // knex.raw("SET SESSION group_concat_max_len = 10000000;").then().catch(e => {
     //   console.error("SET SESSION Error", e);
@@ -170,11 +173,11 @@ export default class Router {
 
   async reloadData(){
     
-    debug("reloadData");
+    // debug("reloadData");
 
     const result = await this.loadData();
 
-    debug("apiData reloaded");
+    // debug("apiData reloaded");
 
     return result;
 
@@ -259,7 +262,7 @@ export default class Router {
   }
 
 
-  clearCache(){
+  clearCache = () => {
 
 
 
@@ -276,7 +279,7 @@ export default class Router {
     let router = express.Router();
 
 
-    debug("Server started");
+    // debug("Server started");
 
     var httpServ = require('http');
 
@@ -450,9 +453,9 @@ export default class Router {
       }
 
 
-      debug('SendUsersActivity');
-      debug('total_active_clients', total_active_clients);
-      debug('users', users);
+      // debug('SendUsersActivity');
+      // debug('total_active_clients', total_active_clients);
+      // debug('users', users);
       return;
     }
    
@@ -563,7 +566,7 @@ export default class Router {
 
     const startTime = new Date().getTime();
 
-    debug("processPostRequest");
+    // debug("processPostRequest");
 
     const request = Object.assign(req.query, req.body);
 
@@ -574,7 +577,7 @@ export default class Router {
 
     const diff = (endTime - startTime) / 1000;
 
-    debug("processPostRequest", `${diff.toFixed(3)} sec`);
+    // debug("processPostRequest", `${diff.toFixed(3)} sec`);
 
   };
 
@@ -583,7 +586,7 @@ export default class Router {
 
     let clients = this.clients;
 
-    debug("Server. WS Requested");
+    // debug("Server. WS Requested");
 
     ws.id = md5(new Date().getTime());
 
@@ -592,13 +595,13 @@ export default class Router {
 
     ws.on('message', async (message) => {
 
-      debug('Я получил от вас сообщение: ' + message);
+      // debug('Я получил от вас сообщение: ' + message);
 
       try{
         message = JSON.parse(message);
         // let response = message;
 
-        debug("Server. Received message", message);
+        // debug("Server. Received message", message);
 
         const {
           type,
@@ -714,7 +717,7 @@ export default class Router {
 
     ws.on('close', function(){
 
-      debug("Соединение закрыто");
+      // debug("Соединение закрыто");
 
       for(var i in clients){
         if(clients[i] === ws){
@@ -741,7 +744,7 @@ export default class Router {
 
     const startTime = new Date().getTime();
 
-    debug("processMainRequest");
+    // debug("processMainRequest");
     
     if(!this.inited){
 
@@ -1043,7 +1046,7 @@ export default class Router {
 
         const MainApp = this.MainApp;
 
-        debug("ReactDom.renderToString");
+        // debug("ReactDom.renderToString");
 
         const componentHTML = ReactDom.renderToString(
           <MainApp
@@ -1060,7 +1063,7 @@ export default class Router {
         const stylesGenerated = appExports.theme && appExports.theme.sheetsToString();
 
 
-        debug("ReactDom.renderToString result");
+        // debug("ReactDom.renderToString result");
 
 
 
@@ -1099,11 +1102,11 @@ export default class Router {
     });
 
 
-    const endTime = new Date().getTime();
+    // const endTime = new Date().getTime();
 
-    const diff = (endTime - startTime) / 1000;
+    // const diff = (endTime - startTime) / 1000;
 
-    debug("processMainRequest", `${diff.toFixed(3)} sec`);
+    // debug("processMainRequest", `${diff.toFixed(3)} sec`);
 
     return;
   };
