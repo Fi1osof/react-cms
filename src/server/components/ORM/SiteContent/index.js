@@ -165,9 +165,12 @@ export const getList = (object, args, context, info) => {
 
 
 
-    const {
+    let {
       page,
+      id: locationId,
     } = query || {};
+
+    locationId = locationId && parseInt(locationId) || undefined;
 
     const relativePathname = decodeURI(pathname.replace(/^\/+/, ''));
 
@@ -193,6 +196,7 @@ export const getList = (object, args, context, info) => {
       ratingType: paramsRatingType,
       placeType: paramsPlaceType,
       albumId: paramsAlbumId,
+      eventId: paramsEventId,
     } = params;
 
     paramsLat = paramsLat && parseFloat(paramsLat) || undefined;
@@ -205,6 +209,7 @@ export const getList = (object, args, context, info) => {
     paramsUserId = paramsUserId && parseInt(paramsUserId) || undefined;
     paramsRatingType = paramsRatingType && decodeURI(paramsRatingType) || undefined;
     paramsAlbumId = paramsAlbumId && parseInt(paramsAlbumId) || undefined;
+    paramsEventId = paramsEventId && parseInt(paramsEventId) || undefined;
 
 
     // console.log("params", params);
@@ -630,6 +635,8 @@ export const getList = (object, args, context, info) => {
         ratingType: paramsRatingType,
         placeType: paramsPlaceType,
         albumId: paramsAlbumId,
+        locationId,
+        eventId: paramsEventId,
       };
         
 
