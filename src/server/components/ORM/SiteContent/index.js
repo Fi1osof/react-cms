@@ -197,6 +197,8 @@ export const getList = (object, args, context, info) => {
       placeType: paramsPlaceType,
       albumId: paramsAlbumId,
       eventId: paramsEventId,
+      beerId: paramsBeerId,
+      cityAlias: paramsCityAlias,
     } = params;
 
     paramsLat = paramsLat && parseFloat(paramsLat) || undefined;
@@ -210,6 +212,8 @@ export const getList = (object, args, context, info) => {
     paramsRatingType = paramsRatingType && decodeURI(paramsRatingType) || undefined;
     paramsAlbumId = paramsAlbumId && parseInt(paramsAlbumId) || undefined;
     paramsEventId = paramsEventId && parseInt(paramsEventId) || undefined;
+    paramsBeerId = paramsBeerId && parseInt(paramsBeerId) || undefined;
+    paramsCityAlias = paramsCityAlias && decodeURI(paramsCityAlias) || undefined;
 
 
     // console.log("params", params);
@@ -637,6 +641,8 @@ export const getList = (object, args, context, info) => {
         albumId: paramsAlbumId,
         locationId,
         eventId: paramsEventId,
+        beerId: paramsBeerId,
+        cityAlias: paramsCityAlias,
       };
         
 
