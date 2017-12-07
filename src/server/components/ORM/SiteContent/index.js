@@ -45,6 +45,18 @@ export const getList = (object, args, context, info) => {
       Иначе получаем объект города и только потом запрашиваем список всех городов с учетом удаленности.
     */
 
+    // console.log("ergergreg");
+
+    // return resolve({
+    //   object: [{
+    //     id: 123,
+    //     status: 200,
+    //     title: title || "СпортПоиск.Инфо",
+    //     state: {},
+    //     user: {},
+    //   }],
+    // });
+
     const {
       headers,
     } = req || {};
@@ -650,6 +662,7 @@ export const getList = (object, args, context, info) => {
       result = await loadServerData.call(this, localQuery, options)
       .then(r => {
         
+        // console.log("loadServerData result", r);
 
         return r;
 
@@ -689,7 +702,7 @@ export const getList = (object, args, context, info) => {
 
     object = {
       status: 200,
-      title: title || "Пивная карта",
+      title: title || "СпортПоиск.Инфо",
       state: Object.assign({}, {cities, coords}),
       user: currentUser || null,
     };
@@ -734,6 +747,8 @@ export const getList = (object, args, context, info) => {
 
     }
 
+
+    // console.log("SiteContent result", result);
 
     resolve(result);
 
