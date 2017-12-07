@@ -1,3 +1,5 @@
+import './style/styles.less';
+
 import React, {Component} from 'react';
 
 import PropTypes from 'prop-types'; 
@@ -599,7 +601,7 @@ export default class MapMainView extends Component{
  		
 
 
- 		setPageTitle(title || "Пивная карта");
+ 		setPageTitle(title);
 
 	}
 

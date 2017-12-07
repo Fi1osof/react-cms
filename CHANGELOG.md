@@ -1,4 +1,11 @@
 
+1.3.0
+===============================================
+- Breaking changes: ORM/SiteContent refactoring
+- Added Auth
+- Added Map
+- Added DbPage
+
 1.2.0
 ===============================================
 - Added MapPage

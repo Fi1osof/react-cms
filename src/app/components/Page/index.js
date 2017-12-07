@@ -13,16 +13,10 @@ export default class Page extends Component{
 	static contextTypes = {
 		inited: PropTypes.bool.isRequired,
 		document: PropTypes.object.isRequired,
-		coords: PropTypes.object,
 		appExports: PropTypes.object.isRequired,
-		setPageTitle: PropTypes.func.isRequired,
 		user: PropTypes.object.isRequired,
-		getCounters: PropTypes.func.isRequired,
 		localQuery: PropTypes.func.isRequired,
 		remoteQuery: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    triggerGoal: PropTypes.func.isRequired,
 	};
 
 	constructor(props){
@@ -105,24 +99,6 @@ export default class Page extends Component{
 
 	}
 
-// componentDidUpdate(prevProps, prevState, prevContext){
-
-//     const {
-//       location,
-//     } = this.props;
-
-//     const {
-//       location: prevLocation,
-//     } = prevProps;
-
-//     console.log("componentDidUpdate", location, prevLocation, location === prevLocation);
-
-//     // if((username || prevUsername) && username !== prevUsername){
-//     //   this.reloadData();
-//     // }
-
-//     super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, prevContext);
-//   }
 
   componentDidUpdate(prevProps, prevState, prevContext){
 
@@ -135,21 +111,6 @@ export default class Page extends Component{
     } = prevContext || {};
 
 
-		// const page = this.getPage();
-
-		// const {
-		// 	location,
-		// } = prevProps;
-
-		// const {
-		// 	query: prevLocationQuery,
-		// } = location || {};
-
-		// const {
-		// 	page: prevPage,
-		// } = prevLocationQuery || {};
-
-
     if(
     	(prevContext !== undefined && !prevInited && inited)
     ){
@@ -158,15 +119,6 @@ export default class Page extends Component{
 
     }
     	
-
-    // if(
-    // 	(page || prevPage) && parseInt(page) !== parseInt(prevPage)
-    // ){
-
-    // 	this.onPageChange();
-
-    // }
-
 
     const {
       location,
@@ -222,15 +174,10 @@ export default class Page extends Component{
 
 
   getPage(){
-
-		const {
-			router,
-		} = this.context;
-
-
+  	
 		const {
 			location,
-		} = router;
+		} = this.props;
 
 		const {
 			query,
@@ -244,13 +191,19 @@ export default class Page extends Component{
   }
 
 
+
+
   setPageTitle(title){
 
-		const {
-			setPageTitle,
-		} = this.context;
+    if(
+      title
+      && typeof window !== "undefined"
+      && (window.document.title != title)
+    ){
+      window.document.title = title;
+    }
 
-		title && setPageTitle(title);
+    return title;
 
   }
 
@@ -325,35 +278,6 @@ export default class Page extends Component{
 		}
 
 	}
-
-
-	// render(childContent){
-
-	// 	const {
-	// 		getCounters,
-	// 	} = this.context;
-
-	// 	return <div
-	// 		style={{
-	// 			maxWidth: 1260,
-	// 			width: "100%",
-	// 			margin: "0 auto",
-	// 			padding: "0 16px",
-	// 		}}
-	// 	>
-			
-	// 		{childContent || null}
-
-	// 		<div
-	// 			style={{
-	// 				paddingTop: 30,
-	// 			}}
-	// 		>
-	// 			{getCounters()}
-	// 		</div>
-
-	// 	</div>;
-	// }
 
 
 	render(childContent){

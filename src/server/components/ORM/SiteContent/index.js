@@ -23,7 +23,6 @@ var debug = require('debug')("react-cms:sitecontent");
 export const getList = (object, args, context, info) => {
 
   const {
-    SendMODXRequest,
     localQuery,
     remoteQuery,
     req,
@@ -32,235 +31,76 @@ export const getList = (object, args, context, info) => {
   // debug("args req.headers", req.headers);
 
   return new Promise( async (resolve, reject) => {
-
-    /*
-      Для начала нам надо определить географические координаты контента.
-      Очередность определения такая:
-      1. Явные координаты в адресной строке.
-      2. Заведение (берутся его координаты).
-      3. Город.
-      4. Объект geo.
-
-      Если координаты есть еще до запроса города, то получаем список городов сразу с учетом города.
-      Иначе получаем объект города и только потом запрашиваем список всех городов с учетом удаленности.
-    */
-
-    // console.log("ergergreg");
-
-    // return resolve({
-    //   object: [{
-    //     id: 123,
-    //     status: 200,
-    //     title: title || "СпортПоиск.Инфо",
-    //     state: {},
-    //     user: {},
-    //   }],
-    // });
-
-    const {
-      headers,
-    } = req || {};
-
-    const {
-      cookie,
-    } = headers || {};
-
-    const {
-      request,
-      // component,
-      geo,
-      pathname: debugPathname,
-      companyId: debugCompanyId,
-      city: debugCity,
-    } = args;
+ 
+    try{
 
 
+      // const {
+      //   headers,
+      // } = req || {};
 
-    if(!request){
-      reject({
-        message: "Не был получен объект запроса",
-      });
-    }
+      // const {
+      //   cookie,
+      // } = headers || {};
 
-
-    const {
-      location,
-      params,
-      routes,
-    } = request;
+      const {
+        request,
+      } = args;
 
 
-    if(!location){
-      reject({
-        message: "Не был получен объект URL",
-      });
-    }
-
-
-
-    const {
-      1: baseRouter,
-    } = routes || [];
-
-
-    const {
-      component: Component,
-    } = baseRouter || {};
-
-
-    // let component = "MainPage";
-
-    if(Component){
-
-      // switch(Component){
-
-      //   // Страница компаний
-      //   case CompaniesPage:
-
-      //     component = "CompaniesPage";
-
-      //     break;
-
-      // }
-
-    }
-    else{
-      reject("Не был получен базовый компонент");
-    }
-
-
-    let {
-      pathname,
-      query,
-    } = location;
-
-    pathname = pathname || debugPathname;
-
-    if(!pathname){
-      reject("Не был получен УРЛ");
-    }
-
-    // Get current user
-
-    // debug("Start get CurrentUser");
-
-    let currentUser;
-
-    // if(cookie && /PHPSESSID/.test(cookie)){
-
-    //   await localQuery({
-    //     operationName: "CurrentUser",
-    //     variables: {
-    //       limit: 0,
-    //       resourcesCenter: coords,
-    //     },
-    //     req,
-    //   })
-    //   .then(r => {
-      
-    //     // debug("CurrentUser result", r);
-
-    //     const {
-    //       user,
-    //       // resources,
-    //     } = r.data;
-
-    //     currentUser = user;
-
-    //   }).
-    //   catch(e => {
-    //     console.error(e);
-    //   });
-
-    // }
-
-
-
-
-    let {
-      page,
-      id: locationId,
-    } = query || {};
-
-    locationId = locationId && parseInt(locationId) || undefined;
-
-    const relativePathname = decodeURI(pathname.replace(/^\/+/, ''));
-
-
-    let object;
-    
-
-    let contentCoords;  // Координаты, от которых будет плясать контент
-
-
-    let lat, lng, city;
-
-    let {
-      companyId,
-      city: paramsCity,
-      lat: paramsLat,
-      lng: paramsLng,
-      zoom: paramsZoom,
-      tag: paramsTag,
-      commentId: paramsCommentId,
-      username: paramsUsername,
-      userId: paramsUserId,
-      ratingType: paramsRatingType,
-      placeType: paramsPlaceType,
-      albumId: paramsAlbumId,
-      eventId: paramsEventId,
-      beerId: paramsBeerId,
-      cityAlias: paramsCityAlias,
-    } = params;
-
-    paramsLat = paramsLat && parseFloat(paramsLat) || undefined;
-    paramsLng = paramsLng && parseFloat(paramsLng) || undefined;
-    paramsZoom = paramsZoom && parseInt(paramsZoom) || undefined;
-    paramsCity = paramsCity && decodeURI(paramsCity) || undefined;
-    paramsTag = paramsTag && decodeURI(paramsTag) || undefined;
-    paramsCommentId = paramsCommentId && parseInt(paramsCommentId) || undefined;
-    paramsUsername = paramsUsername && decodeURI(paramsUsername) || undefined;
-    paramsUserId = paramsUserId && parseInt(paramsUserId) || undefined;
-    paramsRatingType = paramsRatingType && decodeURI(paramsRatingType) || undefined;
-    paramsAlbumId = paramsAlbumId && parseInt(paramsAlbumId) || undefined;
-    paramsEventId = paramsEventId && parseInt(paramsEventId) || undefined;
-    paramsBeerId = paramsBeerId && parseInt(paramsBeerId) || undefined;
-    paramsCityAlias = paramsCityAlias && decodeURI(paramsCityAlias) || undefined;
-
-
-    // console.log("params", params);
-
-
-    companyId = companyId || debugCompanyId;
-
-    // Основные координаты взяты из адресной строки
-    if(paramsLat && paramsLng){
-
-      lat = paramsLat;
-      lng = paramsLng;
-
-      contentCoords = {
-        lat,
-        lng,
+      if(!request){
+        reject({
+          message: "Не был получен объект запроса",
+        });
       }
 
-    }
 
-    // Координаты не определены, получаем компанию, если запрошена
-    if(!contentCoords){
+      const {
+        location,
+        params,
+        routes,
+      } = request;
 
 
-      // Если заход на карточку компании, то выставляем сразу город
-      if(companyId){
+      if(!location){
+        reject({
+          message: "Не был получен объект URL",
+        });
+      }
 
-        const result = await localQuery({
-          operationName: "CompanyByUri",
-          variables: {
-            resourceUri: relativePathname,
-          },
-        })
+      const {
+        1: baseRouter,
+      } = routes || [];
+
+
+      const {
+        component: Component,
+      } = baseRouter || {};
+
+
+      if(!Component){
+        reject("Не был получен базовый компонент");
+      }
+   
+      let result;
+
+
+      const {
+        loadServerData,
+      } = Component.prototype;
+
+      if(loadServerData){
+
+        let options = {
+          params,
+          location,
+        };
+
+
+        result = await loadServerData.call(this, localQuery, options)
         .then(r => {
           
+          // console.log("loadServerData result", r);
 
           return r;
 
@@ -269,488 +109,75 @@ export const getList = (object, args, context, info) => {
           reject(e);
         });
 
-        // resolve(result && result.data);
-
-        const {
-          company,
-        } = result && result.data || {};
-
-        if(company){
-
-          const {
-            id,
-            name,
-            coords: companyCoords,
-          } = company;
-
-          if(companyCoords){
-
-            contentCoords = companyCoords;
-
-          }
-
-          // object = {
-          //   id,
-          //   status: 200,
-          //   title: name,
-          //   state: Object.assign(result.data, {cities}),
-          // };
-
-        }
-
       }
 
-    }
 
-    // Координаты не получены. Получаем город, если он запрошен
-    if(!contentCoords){
+      // console.log("Server SiteContent loadServerData result", result);
 
-      // Если запрошена страница города и нет координат в УРЛ,
-      // получаем данные города
+      let title;
 
-      let requestedCity;
+      let object = {
+        status: 200,
+        state: {},
+      };
 
-      if(paramsCity){
+      if(result && result.data){
 
-        await localQuery({
-          operationName: "Cities",
-          variables: {
-            resourcesLimit: 1,
-            resourceAlias: paramsCity,
-          },
-        })
-        .then(r => {
+        let {
+          title,
+          user,
+          ...state
+        } = result.data || {};
 
-          const {
-            resources,
-            // resources,
-          } = r.data;
+        Object.assign(object.state, state);
 
+        title && Object.assign(object, {
+          title,
+          user,
+        });
 
-          // console.log("requestedCity", r);
+      }
+      else{
 
-
-          requestedCity = resources && resources[0];
-
-        })
-        .catch(e => {
-
-          console.error(e);
-          
-          reject(e);
-
+        Object.assign(object, {
+          status: 404,
+          title: "Страница не найдена",
+          robots: "noindex,nofollow",
         });
 
       }
 
-      // let requestedCity = paramsCity && cities && cities.find(n => n.alias === paramsCity);
+
+      // console.log("SiteContent object", object);
 
 
+      // Подготовка конечного вывода
+      let resources = [];
 
-      if(requestedCity && requestedCity.coords){
+      object && resources.push(object);
 
-        contentCoords = requestedCity.coords;
+      if(resources.length){
 
-      }
-
-    }
-
-
-    // Координаты не получены. Получаем ближайший город на основании системных геоданных
-    if(!contentCoords){
-
-      if(!geo){
-        reject("Не были получены geo-данные");
-      }
-
-
-      let {
-        0: geoLat,
-        1: geoLng,
-      } = geo.ll || {};
-      
-      lat = geoLat;
-      lng = geoLng;
-
-
-      if(lat && lng){
-        contentCoords = {
-          lat,
-          lng,
+        result = {
+          object: resources,
         };
-      }
-
-    }
-
-
-    // const {
-    //   params,
-    //   location,
-    //   routes,
-    // } = renderProps;
-
-
-
-
- 
-
-
-    let coords = contentCoords;
-
-
-    if(!coords){
-      reject("Не были получены координаты");
-    }
-
-
-    let cities;
-
-    await localQuery({
-      operationName: "MainMenuData",
-      variables: {
-        limit: 0,
-        resourcesCenter: coords,
-      },
-    })
-    .then(r => {
-
-      const {
-        ratings,
-        resources,
-        // resources,
-      } = r.data;
-
-
-
-      // this.setState({
-      //   ratings,
-      //   cities,
-      // });
-
-      cities = resources;
-
-    })
-    .catch(e => {
-
-      console.error(e);
-      
-      reject(e);
-
-    });
-
-
-
-
-    // Если запрошена страница города и нет координат в УРЛ,
-    // получаем данные города
-    let requestedCity = paramsCity && cities && cities.find(n => n.alias === paramsCity);
-
-
-
-    if(requestedCity && requestedCity.coords){
-
-      if(!paramsLat || !paramsLng){
-
-        coords = requestedCity.coords;
 
       }
 
-      // Получаем обновленный список ближайших городов
 
+      // console.log("SiteContent result", result);
 
+      resolve(result);
 
-      await localQuery({
-        operationName: "MainMenuData",
-        variables: {
-          limit: 0,
-          resourcesCenter: coords,
-          menuGetRatings: false,
-        },
-      })
-      .then(r => {
+    }
+    catch(e){
 
-        const {
-          // ratings,
-          resources,
-          // resources,
-        } = r.data;
-
-
-
-        // this.setState({
-        //   ratings,
-        //   cities,
-        // });
-
-        cities = resources;
-
-      })
-      .catch(e => {
-        
-        console.error(e);
-
-        reject(e);
-
+      reject({
+        message: e.message,
+        locations: e.stack,
       });
 
     }
-
-    // Ближайший город
-    // const {
-    //   0: nearedCity,
-    // } = cities || {};
-
-    // const {
-    //   longtitle: cityLongtitle,
-    // } = nearedCity || {};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // if(component){
-
-    // switch(Component){
-
-    //   // Страница компаний
-    //   case CompaniesPage:
-
-    //     companyId = companyId || debugCompanyId;
-    //     // city = city || debugCity;
-
-
-
-    //     // console.log("Company page aqual variables", {
-    //     //   resourceUri: relativePathname,
-    //     // });
-
-    //     /*
-    //       Если указан companyId, то это конечная страница компании
-    //     */
-    //     if(companyId){
-
-    //       // const result = await localQuery({
-    //       //   operationName: "CompanyByUri",
-    //       //   variables: {
-    //       //     resourceUri: relativePathname,
-    //       //   },
-    //       // })
-    //       // .then(r => {
-            
-
-    //       //   return r;
-
-    //       // })
-    //       // .catch(e => {
-    //       //   reject(e);
-    //       // });
-
-    //       // // resolve(result && result.data);
-
-    //       // const {
-    //       //   company,
-    //       // } = result && result.data || {};
-
-    //       // if(company){
-
-    //       //   const {
-    //       //     id,
-    //       //     name,
-    //       //   } = company;
-
-    //       //   object = {
-    //       //     id,
-    //       //     status: 200,
-    //       //     title: name,
-    //       //     state: Object.assign(result.data, {cities}),
-    //       //   };
-
-    //       // }
-
-    //     }
-    //     else{
-
-    //       // if(!city){
-    //       //   reject("Не был получен город");
-    //       // }
-
-
-    //       // Получаем список компаний
-    //       // const result = await localQuery({
-    //       //   operationName: "MapCompanies",
-    //       //   variables: {
-    //       //     limit: 12,
-    //       //     withPagination: true,
-    //       //     companiesCenter: coords,
-    //       //     page,
-    //       //   },
-    //       // })
-    //       // .then(r => {
-            
-
-    //       //   return r;
-
-    //       // })
-    //       // .catch(e => {
-    //       //   reject(e);
-    //       // });
-
-
-    //     }
-
-    //     break;
-
-    // }
-
-    // }
-    // else{
-    //   throw("Не был получен базовый компонент");
-    // }
-
-    // let {
-    //   // sort,
-    //   ...other
-    // } = args;
-
-    // let params = {...other};
-
-    // // params.limit = 3;
-
-    // let request = SendMODXRequest(action, params); 
-
-    let result;
-
-
-    const {
-      loadServerData,
-    } = Component.prototype;
-
-    if(loadServerData){
-
-      let options = {
-        page,
-        coords,
-        cities,
-        pathname: relativePathname,
-        tag: paramsTag,
-        commentId: paramsCommentId,
-        username: paramsUsername,
-        userId: paramsUserId,
-        ratingType: paramsRatingType,
-        placeType: paramsPlaceType,
-        albumId: paramsAlbumId,
-        locationId,
-        eventId: paramsEventId,
-        beerId: paramsBeerId,
-        cityAlias: paramsCityAlias,
-      };
-        
-
-
-      result = await loadServerData.call(this, localQuery, options)
-      .then(r => {
-        
-        // console.log("loadServerData result", r);
-
-        return r;
-
-      })
-      .catch(e => {
-        reject(e);
-      });
-
-    }
-
-    // resolve(result && result.data);
-
-    // const {
-    //   company,
-    // } = result && result.data || {};
-
-    // if(company){
-
-    //   const {
-    //     id,
-    //     name,
-    //   } = company;
-
-    //   object = {
-    //     id,
-    //     status: 200,
-    //     title: name,
-    //     state: result.data,
-    //   };
-
-    // }
-
-
-    // console.log("Server SiteContent loadServerData result", result);
-
-    let title;
-
-    object = {
-      status: 200,
-      title: title || "СпортПоиск.Инфо",
-      state: Object.assign({}, {cities, coords}),
-      user: currentUser || null,
-    };
-
-    if(result && result.data){
-
-      let {
-        title,
-      } = result.data || {};
-
-      Object.assign(object.state, result.data);
-
-      title && Object.assign(object, {
-        title,
-      });
-
-    }
-    else{
-
-      Object.assign(object, {
-        status: 404,
-        title: "Страница не найдена",
-        robots: "noindex,nofollow",
-      });
-
-    }
-
-
-    // console.log("SiteContent object", object);
-
-
-    // Подготовка конечного вывода
-    let resources = [];
-
-    object && resources.push(object);
-
-    if(resources.length){
-
-      result = {
-        object: resources,
-      };
-
-    }
-
-
-    // console.log("SiteContent result", result);
-
-    resolve(result);
 
   });
 }

@@ -1,6 +1,8 @@
 
 import React, {Component} from 'react';
 
+import PropTypes from 'prop-types';
+
 import {
   buildSchema,
   graphql,
@@ -51,6 +53,45 @@ export default class App extends Component{
     this.saveCommentItem = ::this.saveCommentItem;
 
     this.rootResolver = this.getRootResolver();
+  }
+
+
+  static childContextTypes = {
+    inited: PropTypes.bool,
+    document: PropTypes.object,
+    user: PropTypes.object,
+    schema: PropTypes.object,
+    localQuery: PropTypes.func,
+    remoteQuery: PropTypes.func,
+    request: PropTypes.func,
+    apiRequest: PropTypes.func,
+  };
+
+
+  getChildContext() {
+
+    let {
+      document,
+      user,
+    } = this.props;
+
+    let {
+      inited,
+      schema,
+    } = this.state;
+
+    let context = {
+      inited,
+      document,
+      user,
+      schema,
+      localQuery: ::this.localQuery,
+      remoteQuery: ::this.remoteQuery,
+      request: ::this.request,
+      apiRequest: ::this.apiRequest,
+    };
+
+    return context;
   }
 
 
@@ -406,8 +447,6 @@ export default class App extends Component{
   }
 
 
-
-
   async saveCommentItem (item) {
     // 
 
@@ -658,6 +697,112 @@ export default class App extends Component{
 
     });
 
+  }
+
+
+  request = (connector_url, connector_path, params, options) => {
+
+
+    return new Promise( (resolve, reject) => {
+
+      let defaultOptions = {
+        showErrorMessage: true,
+        method: 'POST',
+      };
+
+      const {
+        documentActions,
+      } = this.props;
+
+      options = options || {};
+
+      options = Object.assign(defaultOptions, options);
+
+      let showErrorMessage = options.showErrorMessage;
+      let method = options.method;
+
+      const request = fetch(connector_url +'?pub_action=' + connector_path,{
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: method,
+        // body: body,
+        body: JSON.stringify(params),
+      })
+      .then(function (response) {
+
+        return response.json()
+      })
+      .then( (r) => {
+
+        let message;
+
+        let errors = {};
+
+        if(r.success){
+        }
+        else{
+
+          if(r.data && r.data.length){
+
+            r.data.map(function(error){
+              if(error.msg != ''){
+                errors[error.id] = error.msg;
+              }
+            }, this);
+          }
+
+          message = r.message || "Ошибка выполнения запроса";
+
+          showErrorMessage && documentActions.addInformerMessage({
+            text: message,
+            autohide: 4000,
+          });
+
+        }
+        
+        this.forceUpdate();
+
+        if(r.success){
+          resolve(r);
+        }
+        else{
+          reject({
+            message,
+            r, 
+            errors,
+          });
+        }
+
+        return;
+      })
+      .catch((error) => {
+          console.error('Request failed', error);
+          
+          showErrorMessage && documentActions.addInformerMessage({
+            text: "Ошибка выполнения запроса",
+            autohide: 4000,
+          });
+
+          reject(error);
+        }
+      );
+
+      this.forceUpdate();
+
+    });
+  }
+  
+
+  apiRequest = (context, allowMultiRequest, connector_path, params, options) => {
+
+    options = Object.assign({
+      connector_url: '/api/',
+    }, options || {});
+
+    return this.request(context, allowMultiRequest, connector_path, params, options);
   }
 
 }

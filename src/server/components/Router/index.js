@@ -1215,23 +1215,11 @@ export default class Router {
 
 
     let {
-      // name,
-      title: pagetitle,
-      longtitle,
+      title,
       description,
-      // searchable: resourceSearchable,
       robots,
       status,
     } = resourceState || {};
-
-
-
-    let title = longtitle || pagetitle || "";
-
-    // title = title && `${title} | ` || "";
-
-    // title += !/Городские бани|Городские и общественные бани/ui.test(title) ? (title ? " | " : "") + 'Городские и общественные бани' : "";
-    title += !/Пивная Карта/ui.test(title) ? (title ? " | " : "") + 'Пивная Карта' : "";
 
     description = description && description.replace('"', '\"') || '';
 
@@ -1243,8 +1231,8 @@ export default class Router {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>${title}</title>
-          <meta name="description" content="${description}"> 
+          <title>${title || ''}</title>
+          <meta name="description" content="${description || ''}"> 
           <meta name="robots" content="${robots ? robots : "index, follow"}" />
           <link rel="shortcut icon" href="/assets/components/modxsite/templates/pivkarta/v2/favicon.ico"/>
           <base href="/" />
