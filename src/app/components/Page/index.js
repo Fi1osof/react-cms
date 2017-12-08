@@ -91,11 +91,11 @@ export default class Page extends Component{
 			document,
 		} = this.context;
 
-		if(document){
+		// if(document){
 
-			document.resourceState = null;
+		// 	document.resourceState = null;
 
-		}
+		// }
 
 	}
 
@@ -252,6 +252,7 @@ export default class Page extends Component{
 
 		// Для всех страниц по умолчанию
 	  return {
+	  	title: "React-CMS",
 	  	data: {},
 	  };
 
