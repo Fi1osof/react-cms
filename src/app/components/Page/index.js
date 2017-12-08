@@ -151,7 +151,7 @@ export default class Page extends Component{
 
   async onLocationChanged(){
 
-  	// console.log("onLocationChanged");
+
 
   	this.setState({
   		pageReloading: true,

@@ -112,7 +112,7 @@ export default class CompanyControl extends LinkControl {
   //   } = this.props;
 
 
-  //   console.log("renderInFlatList props", this.props);
+
 
   //   return super.renderInFlatList();
   // }
@@ -129,7 +129,7 @@ export default class CompanyControl extends LinkControl {
   //     translations,
   //   } = this.props;
 
-  //   console.log("renderInDropDown props", this.props);
+
 
   //   return super.renderInDropDown();
   // }
@@ -146,7 +146,7 @@ export default class CompanyControl extends LinkControl {
 
   //   super(props);
 
-  //   // console.log('EditorGallery constructor', props);
+
 
   //   this.state = {
 
@@ -175,7 +175,7 @@ export default class CompanyControl extends LinkControl {
 
   //   onChange && onChange(newEditorState);
 
-  //   // console.log('insertColumns', newEditorState, newEditorState);
+
   // }
 
   // render() {
@@ -192,7 +192,7 @@ export default class CompanyControl extends LinkControl {
   //       <div
   //         // onClick={onExpandEvent}
   //         onClick={(event) => {
-  //           console.log('Company onExpandEvent', event);
+
 
   //           // this.setState({
   //           //   expanded: true,

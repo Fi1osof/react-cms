@@ -21,7 +21,7 @@ class Grid2Columns extends Component {
   constructor(props){
 
     super(props);
-    console.log('Grid2Columns constructor', props);
+
 
     this.state = {
 
@@ -38,7 +38,7 @@ class Grid2Columns extends Component {
   // }
 
   // componentWillReceiveProps(propTypes){
-  //   console.log('Grid2Columns componentWillReceiveProps', propTypes);
+
   // }
 
   // renderModal = () => {
@@ -71,7 +71,7 @@ class Grid2Columns extends Component {
 
     onChange && onChange(newEditorState);
 
-    console.log('insertColumns', newEditorState, newEditorState);
+
   }
 
   render() {
@@ -88,7 +88,7 @@ class Grid2Columns extends Component {
         <div
           // onClick={onExpandEvent}
           onClick={(event) => {
-            console.log('Grid2Columns onExpandEvent', event);
+
 
             // this.setState({
             //   expanded: true,

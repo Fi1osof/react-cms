@@ -956,7 +956,7 @@ export default class Router {
         })
         .then(r => {
 
-          // console.log("Router SiteContent result", r);
+
 
           return r.data;
         })
@@ -1406,7 +1406,7 @@ export default class Router {
     })
     .then(function(r) {
     
-      // console.log('SendMODXRequest raw response', JSON.stringify(r));
+
 
       return r;
     })
@@ -1414,7 +1414,7 @@ export default class Router {
       console.error(e);
     });
 
-    // console.log()
+
 
     if(result){
       
@@ -1424,7 +1424,7 @@ export default class Router {
       result.count = result.object && Array.isArray(result.object) ? result.object.length : result.object ? 1 : 0;
     }
 
-    // console.log('SendMODXRequest result.data', result);
+
 
     return result;
   };

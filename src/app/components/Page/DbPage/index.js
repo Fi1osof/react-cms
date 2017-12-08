@@ -51,7 +51,7 @@ Object.assign(contextTypes, {
   // db: PropTypes.object.isRequired,
 });
 
-// console.log("contextTypes", contextTypes);
+
 
 export default class PageGraphiQL extends Page{
 
@@ -127,7 +127,7 @@ export default class PageGraphiQL extends Page{
 
   componentWillMount(){
 
-    console.log("this.context", this.context);
+
 
   }
 

@@ -226,7 +226,7 @@ export const getList = (source, args, context, info) => {
   } = args;
 
 
-  console.log("MODXResourceType info", info);
+
 
   const {
     remoteResolver,

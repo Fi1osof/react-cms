@@ -7,7 +7,7 @@ import {
 
 export const objectResolver = (ofType, source, args, context, info, getResolverByType) => {
 
-	// console.log("objectResolver", getResolverByType);
+
 
   let {
     fieldName,
@@ -41,7 +41,7 @@ export const getObjectsList = (ofType, source, args, context, info, getResolverB
     fieldName,
   } = info;
 
-  // console.log("getObjectsList getResolverByType", getResolverByType);
+
 
   const resolver = getResolverByType(ofType);
 

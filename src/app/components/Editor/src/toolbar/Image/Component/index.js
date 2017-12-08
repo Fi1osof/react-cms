@@ -33,8 +33,8 @@ export default class ImageLayoutComponent extends Component {
 
     super(props);
 
-    // console.log('constructor props', props);
-    // console.log('constructor state', this.state);
+
+
   }
 
   componentWillReceiveProps(props: Object): void {
@@ -148,7 +148,7 @@ export default class ImageLayoutComponent extends Component {
     const { imgSrc, uploadHighlighted, showImageLoading, dragEnter, height, width } = this.state;
     const { config: { popupClassName, uploadCallback, uploadEnabled, urlEnabled, inputAccept }, doCollapse, translations } = this.props;
 
-    // console.log('urlEnabled', urlEnabled, this.props);
+
 
     translations['components.controls.image.fileUpload'] = "Загрузить изображение";
     translations['components.controls.image.dropFileText'] = "Перетащите сюда файл или кликните";

@@ -67,11 +67,11 @@ export default class CompetitionsRenderer extends Renderer{
 
     let entity = editorState.getCurrentContent().getEntity(block.getEntityAt(0));
 
-    // console.log('contentState_1 entity', entity, entity.getData());
+
 
     let {contentState_2} = entity.getData();
 
-    // console.log('contentState_1 contentState', contentState_1);
+
 
     let editorState_2;
 
@@ -80,7 +80,7 @@ export default class CompetitionsRenderer extends Renderer{
 
         let content2 = convertFromRaw(JSON.parse(contentState_2));
         editorState_2 = EditorState.createWithContent(content2);
-        // console.log('contentState_1 editorState', editorState_1);
+
       }
       catch(e){
         console.error(e);
@@ -100,7 +100,6 @@ export default class CompetitionsRenderer extends Renderer{
 
 
   getTitle(title){
-    console.log('getTitle 2', title);
 
     return super.getTitle("Конкурсы");
   }
@@ -126,14 +125,12 @@ export default class CompetitionsRenderer extends Renderer{
     if(onChange){
       let editorState = getEditorState();
 
-      // console.log('editorState_1', editorState_1);
-      console.log('updateMainState', editorState);
 
       // const contentState_1 = editorState_1.getCurrentContent();
       const contentState_2 = editorState_2.getCurrentContent();
 
-      // console.log('contentState_1', contentState_1);
-      // console.log('contentState_1 convertToRaw', convertToRaw(contentState_1));
+
+
 
       const contentState = editorState.getCurrentContent();
    
@@ -151,9 +148,6 @@ export default class CompetitionsRenderer extends Renderer{
       const newEditorState = EditorState.set(editorState, {
           currentContent: updatedContentState
       });
-
-      console.log('updatedContentState', updatedContentState);
-      console.log('newEditorState', newEditorState);
 
       onChange(newEditorState);
 

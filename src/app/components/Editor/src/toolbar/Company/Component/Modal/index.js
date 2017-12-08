@@ -79,7 +79,7 @@ export default class EditorAddCompanyModal extends Component{
 			throw(e);
 		});
 
-		console.log("Modal result", result);
+
 
 	}
 
@@ -204,11 +204,11 @@ export default class EditorAddCompanyModal extends Component{
           		searchText: value,
           	});
 
-          	console.log("onChange", value);
+
 
           }}
           onNewRequest={(event, value, item) => {
-          	console.log("onNewRequest", event, value, item);
+
 
           	if(!linkTitle){
           		updateValue({

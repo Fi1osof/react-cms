@@ -27,7 +27,7 @@ import {
 // 		type,
 // 	} = data;
 
-// 	// console.log("editorBlockTypeResolve data", data);
+
 
 // 	switch(type){
 		
@@ -82,7 +82,7 @@ import {
 // 			// type: EditorEntityType,
 // 			// resolve: source => {
 
-// 			// 	// console.log("CommentEditorStateType", source && source.entityMap);
+
 
 // 			// 	return source && source.entityMap || null;
 
@@ -153,12 +153,12 @@ export default function EditorStateBuilder(customTypes: Array, typesResolver, cu
 
 				}
 
-				// console.log("customFields", customFields);
+
 
 			}
 
 
-			// console.log("EditorStateEntityDataTypeFields", EditorStateEntityDataTypeFields);
+
 
 			return EditorStateEntityDataTypeFields;
 
@@ -329,7 +329,7 @@ export default function EditorStateBuilder(customTypes: Array, typesResolver, cu
 			type,
 		} = data;
 
-		// console.log("editorBlockTypeResolve data", data);
+
 
 		const returnType = typesResolver && typesResolver(data);
 
@@ -397,7 +397,7 @@ export default function EditorStateBuilder(customTypes: Array, typesResolver, cu
 				// type: EditorEntityType,
 				// resolve: source => {
 
-				// 	// console.log("CommentEditorStateType", source && source.entityMap);
+
 
 				// 	return source && source.entityMap || null;
 

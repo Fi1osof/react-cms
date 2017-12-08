@@ -41,10 +41,10 @@ const ReactCmsPaymentMethodType = new GraphQLObjectType({
 
       resolve: (source, args, context, info) => {
 
-        // console.log("paymentMethods description source", source);
-        // console.log("paymentMethods description info", info);
-        // console.log("paymentMethods ReactCmsPaymentMethodEnumType info", ReactCmsPaymentMethodEnumType);
-        // console.log("paymentMethods ReactCmsPaymentMethodEnumType _valueLookup", ReactCmsPaymentMethodEnumType._valueLookup);
+
+
+
+
 
         const {
         	type,
@@ -62,7 +62,7 @@ const ReactCmsPaymentMethodType = new GraphQLObjectType({
 
         // const value = ReactCmsPaymentMethodEnumType._valueLookup.get(type);
 
-        // console.log("value", value);
+
 
         // return "cash";
       }

@@ -309,14 +309,14 @@ export default class TextField extends Component {
 	}
 
   uploadImageCallBack = (file) => {
-    // console.log('uploadImageCallBack', file);
+
 
     const {
       connector_url,
       documentActions,
     } = this.context;
 
-    // console.log('uploadImageCallBack', this, this);
+
 
     // let {documentActions} = this.props;
 
@@ -338,7 +338,7 @@ export default class TextField extends Component {
           })
           .then(function (data) {
 
-            // console.log('data', data);
+
 
             if(data.success){
 
@@ -394,11 +394,11 @@ export default class TextField extends Component {
 
   blockRenderer = (block, config, getEditorState) => {
 
-    // console.log('_blockRenderer', this, getEditorState, block, block.getType());
-    // console.log('_blockRenderer', block.getType());
-    // console.log('_blockRenderer config', config);
-    // console.log('_blockRenderer getEditorState', getEditorState);
-    // console.log('_blockRenderer currentContent', getEditorState().getCurrentContent());
+
+
+
+
+
 
 
     const {
@@ -412,7 +412,7 @@ export default class TextField extends Component {
     if(key){
 
       let entity = getEditorState().getCurrentContent().getEntity(block.getEntityAt(0));
-      // console.log('_blockRenderer currentContent getEntity', entity, entity && entity.getType());
+
 
       if(entity){
 
@@ -442,7 +442,7 @@ export default class TextField extends Component {
             break;
 
           case 'IMAGE':
-            // console.log('_blockRenderer', block, block.getType(), ImageRenderer);
+
             return {
               component: ImageRenderer,
               editable: false,
@@ -453,7 +453,7 @@ export default class TextField extends Component {
             break;
 
           case 'GALLERY':
-            // console.log('_blockRenderer GalleryRenderer', block, block.getType(), GalleryRenderer);
+
             return {
               component: GalleryRenderer,
               editable: false,
@@ -471,7 +471,7 @@ export default class TextField extends Component {
 
 
   imageEditorToggle = (block) => {
-    // console.log('imageEditorToggle', block);
+
 
     if(!this.state.cropperOpened){
       this.onStartEdit();
@@ -515,7 +515,7 @@ export default class TextField extends Component {
     let toolbarCustomButtons = [];
 
     toolbarImage && toolbarCustomButtons.push(<ImageControl 
-      onExpandEvent={event => console.log('onExpandEvent', event)}
+
       config={{
         uploadEnabled: true,
         urlEnabled: false,
@@ -525,7 +525,7 @@ export default class TextField extends Component {
     />);
 
     toolbarGallery && toolbarCustomButtons.push(<GalleryControl 
-      onExpandEvent={event => console.log('GalleryControl onExpandEvent', event)}
+
       config={{
         uploadEnabled: true,
         urlEnabled: false,
@@ -536,7 +536,7 @@ export default class TextField extends Component {
 
 
     toolbarCompany && toolbarCustomButtons.push(<CompanyControl 
-      onExpandEvent={event => console.log('CompanyControl onExpandEvent', event)}
+
       config={{
         uploadEnabled: true,
         urlEnabled: false,

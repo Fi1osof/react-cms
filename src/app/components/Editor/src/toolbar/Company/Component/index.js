@@ -37,15 +37,15 @@ export default class LinkLayout extends LinkControlLayout{
 
 	// updateValue(event){
 
-	// 	console.log("updateValue", event, event.target);
+
 
  //    // return event && event.target && super.updateValue(event);
  //  };
 
   // updateValue: Function = (event: Object): void => {
 		
-		// console.log("updateValue", event, event.target, super.updateValue);
-		// console.log("updateValue this", this);
+
+
 
   //   // this.setState({
   //   //   [`${event.target.name}`]: event.target.value,
@@ -54,7 +54,7 @@ export default class LinkLayout extends LinkControlLayout{
 
 	onChangeCompanyField(a,b,c){
 
-		console.log("onChangeCompanyField", a,b,c);
+
 
 	}
 
@@ -74,7 +74,7 @@ export default class LinkLayout extends LinkControlLayout{
 			updateValue={::this.updateValue}
 			// updateValue={(event) => {
 
-			// 	console.log("updateValue 2", event.target);
+
 
 			// 	this.setState({
 			// 		dsf23: "Sdgsdf",

@@ -67,11 +67,11 @@ export default class InvitationsRenderer extends Renderer{
 
     let entity = editorState.getCurrentContent().getEntity(block.getEntityAt(0));
 
-    // console.log('contentState_1 entity', entity, entity.getData());
+
 
     let {contentState_2, img} = entity.getData();
 
-    // console.log('contentState_1 contentState', contentState_1);
+
 
     let editorState_2;
 
@@ -80,7 +80,7 @@ export default class InvitationsRenderer extends Renderer{
 
         let content2 = convertFromRaw(JSON.parse(contentState_2));
         editorState_2 = EditorState.createWithContent(content2);
-        // console.log('contentState_1 editorState', editorState_1);
+
       }
       catch(e){
         console.error(e);
@@ -101,7 +101,7 @@ export default class InvitationsRenderer extends Renderer{
 
 
   getTitle(title){
-    console.log('getTitle 2', title);
+
 
     return super.getTitle("Пригласительные билеты");
   }
@@ -127,14 +127,14 @@ export default class InvitationsRenderer extends Renderer{
     if(onChange){
       let editorState = getEditorState();
 
-      // console.log('editorState_1', editorState_1);
-      console.log('updateMainState', editorState);
+
+
 
       // const contentState_1 = editorState_1.getCurrentContent();
       const contentState_2 = editorState_2.getCurrentContent();
 
-      // console.log('contentState_1', contentState_1);
-      // console.log('contentState_1 convertToRaw', convertToRaw(contentState_1));
+
+
 
       const contentState = editorState.getCurrentContent();
    
@@ -153,8 +153,8 @@ export default class InvitationsRenderer extends Renderer{
           currentContent: updatedContentState
       });
 
-      console.log('updatedContentState', updatedContentState);
-      console.log('newEditorState', newEditorState);
+
+
 
       onChange(newEditorState);
 
@@ -164,7 +164,7 @@ export default class InvitationsRenderer extends Renderer{
 
   renderBlock(): Object {
 
-    console.log('renderBlock', this);
+
 
     const { block, contentState } = this.props;
     const { 
@@ -254,7 +254,7 @@ export default class InvitationsRenderer extends Renderer{
           multiple={false}
           dataName="file"
           onLoadEnd={(err, response) => {
-            console.log('nLoadEnd succes 2 ', this);
+
             this.onImageUpload(err,response);
           }}
           label={<div

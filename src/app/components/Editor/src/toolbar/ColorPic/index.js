@@ -19,7 +19,7 @@ class ColorPic extends Component {
   constructor(props){
 
     super(props);
-    console.log('ColorPic constructor', props);
+
 
     this.state = {
 
@@ -36,7 +36,7 @@ class ColorPic extends Component {
   }
 
   componentWillReceiveProps(propTypes){
-    console.log('ColorPic componentWillReceiveProps', propTypes);
+
   }
 
   renderModal = () => {
@@ -65,7 +65,7 @@ class ColorPic extends Component {
         <div
           // onClick={onExpandEvent}
           onClick={(event) => {
-            console.log('ColorPic onExpandEvent', event);
+
 
             this.setState({
               expanded: true,

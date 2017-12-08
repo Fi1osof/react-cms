@@ -36,8 +36,6 @@ export default class ColumnsRenderer extends Component {
 
   constructor(props){
 
-    console.log('ColumnsRenderer constructor', props);
-
     super(props);
 
     let {
@@ -62,15 +60,14 @@ export default class ColumnsRenderer extends Component {
 
 
     let editorState = getEditorState();
-    console.log('contentState_1 editorState', editorState);
 
     let entity = editorState.getCurrentContent().getEntity(block.getEntityAt(0));
 
-    // console.log('contentState_1 entity', entity, entity.getData());
+
 
     let {contentState_1, contentState_2} = entity.getData();
 
-    // console.log('contentState_1 contentState', contentState_1);
+
 
     let editorState_1;
     let editorState_2;
@@ -80,7 +77,7 @@ export default class ColumnsRenderer extends Component {
 
         let content1 = convertFromRaw(JSON.parse(contentState_1));
         editorState_1 = EditorState.createWithContent(content1);
-        // console.log('contentState_1 editorState', editorState_1);
+
       }
       catch(e){
         console.error(e);
@@ -92,7 +89,7 @@ export default class ColumnsRenderer extends Component {
 
         let content2 = convertFromRaw(JSON.parse(contentState_2));
         editorState_2 = EditorState.createWithContent(content2);
-        // console.log('contentState_1 editorState', editorState_1);
+
       }
       catch(e){
         console.error(e);
@@ -132,8 +129,6 @@ export default class ColumnsRenderer extends Component {
 
   startEdit = event => {
 
-    console.log('startEdit', event);
-
     event.stopPropagation();
     event.preventDefault();
 
@@ -151,8 +146,6 @@ export default class ColumnsRenderer extends Component {
   }
 
   endEdit = event => {
-
-    console.log('endEdit', event);
 
     event.stopPropagation();
     event.preventDefault();
@@ -174,14 +167,8 @@ export default class ColumnsRenderer extends Component {
       if(onChange){
         let editorState = getEditorState();
 
-        // console.log('editorState_1', editorState_1);
-        // console.log('editorState_1', editorState_1.getCurrentContent());
- 
         const contentState_1 = editorState_1.getCurrentContent();
         const contentState_2 = editorState_2.getCurrentContent();
-
-        // console.log('contentState_1', contentState_1);
-        // console.log('contentState_1 convertToRaw', convertToRaw(contentState_1));
 
         const contentState = editorState.getCurrentContent();
      
@@ -200,9 +187,6 @@ export default class ColumnsRenderer extends Component {
             currentContent: updatedContentState
         });
 
-        console.log('updatedContentState', updatedContentState);
-        console.log('newEditorState', newEditorState);
-
         onChange(newEditorState);
 
         // onChange(editorState);
@@ -218,20 +202,18 @@ export default class ColumnsRenderer extends Component {
 
   onEditorStateChange = (editorState, editorName) => {
 
-    console.log('onEditorStateChange', editorState, editorName);
-
     if(!editorName){
       editorName = 'editorState';
     }
 
-    // console.log('newEditorState diff isEqual 2', editorState === this.state.editorState);
+
 
     let {
       onChange,
       name,
     } = this.props;
 
-    // console.log('contentState isEqual', editorState === this.state.editorState);
+
 
     let newState = {};
 

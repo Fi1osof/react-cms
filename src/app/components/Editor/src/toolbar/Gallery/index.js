@@ -22,7 +22,7 @@ export default class EditorGallery extends Component {
 
     super(props);
 
-    // console.log('EditorGallery constructor', props);
+
 
     this.state = {
 
@@ -39,7 +39,7 @@ export default class EditorGallery extends Component {
   // }
 
   // componentWillReceiveProps(propTypes){
-  //   console.log('Grid2Columns componentWillReceiveProps', propTypes);
+
   // }
 
   // renderModal = () => {
@@ -72,7 +72,7 @@ export default class EditorGallery extends Component {
 
     onChange && onChange(newEditorState);
 
-    console.log('insertColumns', newEditorState, newEditorState);
+
   }
 
   render() {
@@ -89,7 +89,7 @@ export default class EditorGallery extends Component {
         <div
           // onClick={onExpandEvent}
           onClick={(event) => {
-            console.log('Grid2Columns onExpandEvent', event);
+
 
             // this.setState({
             //   expanded: true,

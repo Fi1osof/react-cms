@@ -100,7 +100,7 @@ export const getList = (object, args, context, info) => {
         result = await loadServerData.call(this, localQuery, options)
         .then(r => {
           
-          // console.log("loadServerData result", r);
+
 
           return r;
 
@@ -112,7 +112,7 @@ export const getList = (object, args, context, info) => {
       }
 
 
-      // console.log("Server SiteContent loadServerData result", result);
+
 
       let title;
 
@@ -148,7 +148,7 @@ export const getList = (object, args, context, info) => {
       }
 
 
-      // console.log("SiteContent object", object);
+
 
 
       // Подготовка конечного вывода
@@ -165,7 +165,7 @@ export const getList = (object, args, context, info) => {
       }
 
 
-      // console.log("SiteContent result", result);
+
 
       resolve(result);
 

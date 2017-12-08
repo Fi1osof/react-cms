@@ -111,7 +111,7 @@ export default class App extends Component{
 
   createStores(){
 
-  	// console.log("createStores");
+
 
   }
 
@@ -182,7 +182,7 @@ export default class App extends Component{
     } = apiData || {};
     
 
-    // console.log("apiData", apiData);
+
 
 
     if(currentUser){
@@ -490,7 +490,7 @@ export default class App extends Component{
 
     await this.reloadApiData();
 
-    // console.log("saveCommentItem result", result);
+
 
     return result;
 
@@ -510,7 +510,7 @@ export default class App extends Component{
 
     const currentUser = this.getCurrentUser();
 
-    // console.log("currentUser", currentUser);
+
 
     if(!currentUser){
       throw(new Error("Не был получен объект пользователя 2"));

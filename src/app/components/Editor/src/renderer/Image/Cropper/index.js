@@ -57,7 +57,7 @@ export default class Cropper extends Component{
 
 		super(props);
 
-		console.log('Cropper constructor', props);
+
 
     this.state = {
       // editorState: EditorState.createWithContent(state),
@@ -89,7 +89,7 @@ export default class Cropper extends Component{
 
 		const { croppingBlock, editorState } = this.props;
 
-    // console.log('editorState', editorState);
+
 
     let block = croppingBlock;
     let contentState = editorState.getCurrentContent();
@@ -100,7 +100,7 @@ export default class Cropper extends Component{
     const { src } = entity.getData();
 
     this.setState({src});
-    // console.log('startEdit entity data', { src });
+
 
     // if(!this.state.url){
     //   return;
@@ -123,10 +123,10 @@ export default class Cropper extends Component{
 
     // let url = this.state.img;
 
-    // console.log('url', url);
+
     // let callback = (a,b) => {
 
-    //   console.log('callback', a,b);
+
 
     //   this.setState({
     //     image: a,
@@ -149,7 +149,7 @@ export default class Cropper extends Component{
     //   // // add the layer to the stage
     //   // stage.add(layer);
 
-    //   console.log('yoda', yoda);
+
 
     //   this.setState({
     //     image: yoda,
@@ -161,10 +161,10 @@ export default class Cropper extends Component{
   componentDidUpdate(prevProps, prevState){
 
     if(this.props.debug){
-      console.log("Cropper componentDidUpdate", this);
+
     }
     
-    console.log("Cropper componentDidUpdate", prevProps, prevState);
+
 
     if(this.state.src && prevState.src != this.state.src){
 
@@ -198,9 +198,9 @@ export default class Cropper extends Component{
 
     ctx.drawImage(loadedImg, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
 
-    console.log('cropImage', loadedImg);
 
-    console.log(canvas.toDataURL('image/jpeg'));
+
+
 
     this.setState({
     	newSrc: canvas.toDataURL('image/jpeg'),
@@ -210,7 +210,7 @@ export default class Cropper extends Component{
 
     // if (HTMLCanvasElement.prototype.toBlob) {
     //   console.info('It looks like Chrome now supports HTMLCanvasElement.toBlob.. time to uncomment some code!');
-    //   console.log(canvas.toBlob(ctx));
+
     // }
 
     // canvas.toBlob will be faster and non-blocking but is currently only supported in FF.
@@ -254,13 +254,13 @@ export default class Cropper extends Component{
     const entityKey = block.getEntityAt(0);
 
 
-    // console.log('newEditorState', newEditorState, editorState);
-    // console.log('newEditorState isEqual', newEditorState === editorState);
+
+
 
     // let newEditorState2 = EditorState.createWithContent(newEditorState.getCurrentContent());
 
-    // console.log('newEditorState2', newEditorState2, editorState);
-    // console.log('newEditorState2 isEqual', newEditorState === newEditorState2);
+
+
 
     // onChange(newEditorState2);
 
@@ -276,7 +276,7 @@ export default class Cropper extends Component{
       },
     );
 
-    // console.log('newEditorState diff isEqual 3', updatedContentState === contentState);
+
 
     // let newContent = lodash.cloneDeep(contentState);
 
@@ -285,7 +285,7 @@ export default class Cropper extends Component{
     // var newEditorState = EditorState.push(editorState, newContent, 'change-block-data');
     // var newEditorState = EditorState.push(editorState, contentState, 'apply-entity');
 
-    // console.log('newEditorState diff isEqual', newEditorState === editorState);
+
 
 
     // var content = newEditorState.getCurrentContent();
@@ -314,15 +314,15 @@ export default class Cropper extends Component{
         currentContent: updatedContentState
     });
 
-    // console.log('newEditorState diff isEqual 4', newEditorState === editorState);
 
-    // console.log('newEditorState', newEditorState, editorState);
-    // console.log('newEditorState isEqual', newEditorState === editorState);
+
+
+
 
     // let newEditorState2 = EditorState.createWithContent(newEditorState.getCurrentContent());
 
-    // console.log('newEditorState2', newEditorState2, editorState);
-    // console.log('newEditorState2 isEqual', newEditorState === newEditorState2);
+
+
 
     onChange(newEditorState);
     // onChange(newEditorState);
@@ -400,10 +400,10 @@ export default class Cropper extends Component{
 	          src={src} 
 	          crop={crop}
 	          onChange={(crop, pixelCrop) => {
-	            console.log('onChange(crop, pixelCrop)', crop, pixelCrop);
+
 	          }}
 	          onComplete={(crop, pixelCrop) => {
-	            console.log('onComplete(crop, pixelCrop)', crop, pixelCrop);
+
 
 	            if(imageObj){
 

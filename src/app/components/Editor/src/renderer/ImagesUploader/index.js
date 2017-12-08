@@ -27,11 +27,11 @@ export default class ImagesUploader extends ImagesUploaderProto{
 
         if (response && response.status && response.status === 200) {
 
-          console.log('response', response);
+
 
           response = await response.json();
 
-          console.log('response 2', response);
+
 
           const multiple = this.props.multiple;
           if (response.success && response.object && response.object.url) {

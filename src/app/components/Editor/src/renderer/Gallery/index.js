@@ -55,7 +55,7 @@ export default class GalleryRenderer extends Component {
 
   constructor(props){
 
-    // console.log('Image constructor', props);
+
 
     super(props);
 
@@ -97,7 +97,7 @@ export default class GalleryRenderer extends Component {
 
   onUpload(data){
 
-    // console.log("GalleryRenderer onUpload this", this);
+
 
 
     const {
@@ -117,7 +117,7 @@ export default class GalleryRenderer extends Component {
  
     const entityKey = block.getEntityAt(0); 
 
-    // console.log("GalleryRenderer onUpload getEditorState", editorState);
+
 
     if(!item || !data){
       return;
@@ -157,8 +157,8 @@ export default class GalleryRenderer extends Component {
         currentContent: updatedContentState
     });
 
-    // console.log('updatedContentState', updatedContentState);
-    // console.log('newEditorState', newEditorState);
+
+
 
     onChange(newEditorState);
 
@@ -185,7 +185,7 @@ export default class GalleryRenderer extends Component {
 
     onChange && onChange(newEditorState);
 
-    // console.log('insertColumns', newEditorState, newEditorState);
+
   }
 
   // renderCropper = () => {
@@ -194,7 +194,7 @@ export default class GalleryRenderer extends Component {
 
   //   let {cropperOpened} = this.state;
 
-  //   // console.log('renderCropper', cropperOpened);
+
 
   //   return <div>
   //     <Button
@@ -215,7 +215,7 @@ export default class GalleryRenderer extends Component {
 
   // setCropperOpened = (cropperOpened) => {
 
-  //   // console.log('setCropperOpened');
+
 
   //   const { block, contentState } = this.props;
 
@@ -232,7 +232,7 @@ export default class GalleryRenderer extends Component {
 
   // handleOpen = (event) => {
 
-  //   console.log("handleOpen event", event);
+
 
   //   event.stopPropagation();
   //   event.preventDefault();
@@ -247,16 +247,16 @@ export default class GalleryRenderer extends Component {
   render(){
     const { block, contentState } = this.props;
 
-    // console.log("block", block);
+
 
     const entityKey = block.getEntityAt(0); 
 
 
     const entity = contentState.getEntity(entityKey);
     
-    // console.log("entity", entity);
 
-    // console.log("entity.getData()", entity.getData());
+
+
 
     const {
       gallery,
@@ -285,7 +285,7 @@ export default class GalleryRenderer extends Component {
             item={item}
             onUpload={(data) => this.onUpload(data)}
             updateItem={(a,b,c) => {
-              // console.log("updateItem", a,b,c);
+
             }}
           />
           :

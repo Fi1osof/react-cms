@@ -76,7 +76,7 @@ function getLinkComponent(config) {
 
       const { showPopOver } = this.state;
 
-      // console.log("Company Link", Company);
+
 
       
       const {

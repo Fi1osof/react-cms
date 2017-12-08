@@ -48,7 +48,7 @@ export default class getImageComponent extends Component {
 
   constructor(props){
 
-    // console.log('Image constructor', props);
+
 
     super(props);
 
@@ -81,7 +81,7 @@ export default class getImageComponent extends Component {
 
     let {cropperOpened} = this.state;
 
-    // console.log('renderCropper', cropperOpened);
+
 
     return <div>
       <Button
@@ -102,7 +102,7 @@ export default class getImageComponent extends Component {
 
   setCropperOpened = (cropperOpened) => {
 
-    // console.log('setCropperOpened');
+
 
     const { block, contentState } = this.props;
 
@@ -119,7 +119,7 @@ export default class getImageComponent extends Component {
 
   handleOpen = (event) => {
 
-    console.log("handleOpen event", event);
+
 
     event.stopPropagation();
     event.preventDefault();

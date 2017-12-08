@@ -29,7 +29,7 @@ export default class Renderer extends Component {
 
   constructor(props){
 
-    console.log('Renderer constructor', props);
+
 
     super(props);
 
@@ -55,7 +55,7 @@ export default class Renderer extends Component {
 
 
     let editorState = getEditorState();
-    console.log('contentState_1 editorState', editorState);
+
 
     
 
@@ -79,7 +79,7 @@ export default class Renderer extends Component {
 
   startEdit = event => {
 
-    console.log('startEdit', event);
+
 
     event.stopPropagation();
     event.preventDefault();
@@ -99,7 +99,7 @@ export default class Renderer extends Component {
 
   endEdit = event => {
 
-    console.log('endEdit', event);
+
 
     event.stopPropagation();
     event.preventDefault();
@@ -140,14 +140,14 @@ export default class Renderer extends Component {
       //   return;
       // }
 
-      // // console.log('editorState_1', editorState_1);
-      // // console.log('editorState_1', editorState_1.getCurrentContent());
+
+
 
       // const contentState_1 = editorState_1 && editorState_1.getCurrentContent();
       // const contentState_2 = editorState_2 && editorState_2.getCurrentContent();
 
-      // console.log('contentState_1', contentState_1);
-      // console.log('contentState_2', contentState_2);
+
+
 
       // const contentState = editorState.getCurrentContent();
    
@@ -166,8 +166,8 @@ export default class Renderer extends Component {
       //     currentContent: updatedContentState
       // });
 
-      // console.log('updatedContentState', updatedContentState);
-      // console.log('newEditorState', newEditorState);
+
+
 
       // onChange(newEditorState);
     }
@@ -175,26 +175,26 @@ export default class Renderer extends Component {
 
   onEditorStateChange(editorState, editorName){
 
-    console.log('onEditorStateChange', editorState, editorName);
+
 
     if(!editorName){
       editorName = 'editorState_2';
     }
 
-    // console.log('newEditorState diff isEqual 2', editorState === this.state.editorState);
+
 
     // let {
     //   onChange,
     //   name,
     // } = this.props;
 
-    // console.log('contentState isEqual', editorState === this.state.editorState);
+
 
     let newState = {};
 
     newState[editorName] = editorState;
 
-    console.log('newState', newState);
+
 
     this.setState(newState, () => {
       this.updateMainState();
@@ -216,7 +216,7 @@ export default class Renderer extends Component {
     if(onChange){
       let editorState = getEditorState();
  
-      console.log('updateMainState', editorState);
+
  
 
       const contentState = editorState.getCurrentContent();
@@ -235,8 +235,8 @@ export default class Renderer extends Component {
           currentContent: updatedContentState
       });
 
-      console.log('updatedContentState', updatedContentState);
-      console.log('newEditorState', newEditorState);
+
+
 
       onChange(newEditorState);
 
@@ -249,7 +249,7 @@ export default class Renderer extends Component {
       console.error(err);
     }
     else{
-      console.log('onLoadEnd success', response, this);
+
       this.setState({
         img: response.object.url,
       }, () => this.saveImageToState());
@@ -266,7 +266,7 @@ export default class Renderer extends Component {
 
   getTitle(title){
 
-    console.log('getTitle', title);
+
 
     if(!title){
       return null;

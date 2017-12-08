@@ -6,7 +6,7 @@ import { Entity, AtomicBlockUtils } from 'draft-js';
 
 import LayoutComponent from './Component';
 
-// console.log('LayoutComponent', LayoutComponent);
+
 
 class ImageControl extends Component {
 
@@ -28,8 +28,8 @@ class ImageControl extends Component {
 
     super(props);
 
-    // console.log('Image constructor props', props);
-    // console.log('Image constructor config', props.config);
+
+
   }
 
   componentWillMount(): void {
@@ -61,7 +61,7 @@ class ImageControl extends Component {
 
   doCollapse: Function = (): void => {
 
-    console.log('doCollapse', this);
+
 
     this.setState({
       expanded: false,

@@ -689,7 +689,7 @@ export default class MapMainView extends Component{
  //      // 	}
  //      // });
 
- //      // console.log("map data", {center,
+
  //      // 	zoom,
  //      // 	mapOptions: {
 	//      //  	center,
