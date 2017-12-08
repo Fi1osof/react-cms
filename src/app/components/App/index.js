@@ -100,11 +100,13 @@ export default class App extends Component{
   }
 
   getSchema(){
- 
+    
+    console.log("rootDirectives", rootDirectives);
 
     return new GraphQLSchema({
       query: RootType,
       mutation: Mutation,
+      directives: rootDirectives,
     });
 
   }
@@ -700,26 +702,99 @@ export default class App extends Component{
   }
 
 
-  request = (connector_url, connector_path, params, options) => {
+  request = (context, allowMultiRequest, connector_path, params, options) => {
+
+    if(allowMultiRequest === undefined){
+      allowMultiRequest = false;
+    }
+
+    if(this.state[context] === undefined){
+      this.state[context] = {};
+    }
+
+    if(!allowMultiRequest && this.state[context].inRequest === true){
+      return;
+    }
 
 
-    return new Promise( (resolve, reject) => {
+    let {
+      connector_url: default_connector_url,
+      user,
+    } = this.props;
 
-      let defaultOptions = {
-        showErrorMessage: true,
-        method: 'POST',
-      };
+    params = params || {}
 
-      const {
-        documentActions,
-      } = this.props;
+    Object.assign(params, {
+      token: user.token,
+    });
+    
+    var newState = {};
 
-      options = options || {};
+    newState[context] = this.state[context];
 
-      options = Object.assign(defaultOptions, options);
+    newState[context].inRequest = true;
 
-      let showErrorMessage = options.showErrorMessage;
-      let method = options.method;
+    this.setState(newState);
+
+    options = options || {};
+
+
+    let {
+      connector_url,
+      callback: callback2,
+    } = options;
+
+    connector_url = connector_url || default_connector_url;
+
+    let callback = (data, errors) => {
+
+      var newState = {};
+
+      newState[context] = this.state[context];
+
+      newState[context].inRequest = false;
+      newState[context].errors = errors; 
+
+      this.setState(newState, () => {
+
+        callback2 && callback2(data, errors);
+      });
+
+    }
+    
+    options.callback = callback;
+
+    return this._request(connector_url, connector_path, params, options);
+  }
+
+  _request = (connector_url, connector_path, params, options) => {
+
+    let defaultOptions = {
+      showErrorMessage: true,
+      callback: null,
+      method: 'POST',
+    };
+
+    const {
+      documentActions,
+    } = this.props;
+
+    options = options || {};
+
+    options = Object.assign(defaultOptions, options);
+
+    let showErrorMessage = options.showErrorMessage;
+    let callback = options.callback;
+    let method = options.method;
+
+    var data = {
+    };
+
+    if(params){
+      Object.assign(data, params);
+    }
+
+    return new Promise((resolve, reject) => {
 
       const request = fetch(connector_url +'?pub_action=' + connector_path,{
         credentials: 'same-origin',
@@ -729,32 +804,34 @@ export default class App extends Component{
         },
         method: method,
         // body: body,
-        body: JSON.stringify(params),
+        body: JSON.stringify(data),
       })
       .then(function (response) {
 
         return response.json()
       })
-      .then( (r) => {
+      .then( (data) => {
 
         let message;
 
         let errors = {};
 
-        if(r.success){
+        if(data.success){
         }
         else{
 
-          if(r.data && r.data.length){
+          // console.error('Request result', data);
 
-            r.data.map(function(error){
+          if(data.data && data.data.length){
+
+            data.data.map(function(error){
               if(error.msg != ''){
                 errors[error.id] = error.msg;
               }
             }, this);
           }
 
-          message = r.message || "Ошибка выполнения запроса";
+          message = data.message || "Ошибка выполнения запроса";
 
           showErrorMessage && documentActions.addInformerMessage({
             text: message,
@@ -762,16 +839,20 @@ export default class App extends Component{
           });
 
         }
+
+        if(callback){
+          callback(data, errors);
+        }
         
         this.forceUpdate();
 
-        if(r.success){
-          resolve(r);
+        if(data.success){
+          resolve(data);
         }
         else{
           reject({
             message,
-            r, 
+            data, 
             errors,
           });
         }
@@ -786,9 +867,14 @@ export default class App extends Component{
             autohide: 4000,
           });
 
+          if(callback){
+            callback(data, {});
+          }
+
           reject(error);
         }
       );
+
 
       this.forceUpdate();
 

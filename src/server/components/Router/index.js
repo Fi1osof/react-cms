@@ -1406,7 +1406,7 @@ export default class Router {
     })
     .then(function(r) {
     
-
+      // console.log("SendMODXRequest result", r);
 
       return r;
     })

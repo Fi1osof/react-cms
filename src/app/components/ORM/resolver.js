@@ -177,39 +177,97 @@ export const ObjectsListResolver = (resolver, object, args, context, info) => {
 
   let state = resolver(object, args, context, info);
 
+  // console.log("ObjectsListResolver result state", state);
+
+  // if(state){
+    
+  //   let {
+  //     ids,
+  //     parent,
+  //     offset,
+  //     limit,
+  //     sort,
+  //     page,
+  //   } = args; 
+
+  //   page = page || 1;
+
+  //   const total = state.size;
+
+  //   state = storeResolver(state, args, context, info);
+
+    
+
+  //   return state && {
+  //     success: true,
+  //     message: '',
+  //     count: state.size,
+  //     total,
+  //     limit,
+  //     page,
+  //     object: state,
+  //   } || null;
+
+  // }
+
+  // return state;
+
+  return ObjectsListResolverProcessResult(state, args, context, info);
+}
+
+
+const ObjectsListResolverProcessResult = function(state, args, context, info){
+
   if(state){
     
-    let {
-      ids,
-      parent,
-      offset,
-      limit,
-      sort,
-      page,
-    } = args; 
+    if(state instanceof Promise){
+      
+      return new Promise((resolve, reject) => {
 
-    page = page || 1;
+        state
+        .then(r => resolve(ObjectsListResolverProcessResult(r, args, context, info)))
+        .catch(e => {
+          reject(e)
+        });
 
-    const total = state.size;
+      });
 
-    state = storeResolver(state, args, context, info);
+    }
+    else{
+      let {
+        ids,
+        parent,
+        offset,
+        limit,
+        sort,
+        page,
+      } = args; 
 
-    
+      page = page || 1;
 
-    return state && {
-      success: true,
-      message: '',
-      count: state.size,
-      total,
-      limit,
-      page,
-      object: state,
-    } || null;
+      const total = state.size;
+
+      state = storeResolver(state, args, context, info);
+
+      
+
+      return state && {
+        success: true,
+        message: '',
+        count: state.size,
+        total,
+        limit,
+        page,
+        object: state,
+      } || null;
+    }
 
   }
 
   return state;
+
 }
+
 
 export const storeResolver = function(state, args, context, info){
 

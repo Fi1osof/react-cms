@@ -1,4 +1,12 @@
 
+1.3.3
+===============================================
+- Removed Map
+- Removed MapPage
+- Added ORM/MODXResource
+- Added ORM/directives
+- Added ORM/helpers
+
 1.3.2
 ===============================================
 - Console.log cleanup

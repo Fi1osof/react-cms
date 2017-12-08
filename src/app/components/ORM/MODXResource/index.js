@@ -15,6 +15,22 @@ import GraphQLJSON from 'graphql-type-json';
 import { List } from 'immutable';
 
 
+export const MODXResourceArgs = {
+  context_key: {
+    type: GraphQLString,
+    description: "Контекст",
+  },
+  showhidden: {
+    type: GraphQLBoolean,
+    description: "Показывать скрытые документы",
+  },
+  showunpublished: {
+    type: GraphQLBoolean,
+    description: "Показывать неопубликованные документы",
+  },
+};
+
+
 export const MODXResourceFields = {
   id: {
     type: new GraphQLNonNull(GraphQLInt),
@@ -221,36 +237,60 @@ const MODXResourceType = new GraphQLObjectType({
 
 export const getList = (source, args, context, info) => {
 
-
   const {
+    showhidden,
+    showunpublished,
   } = args;
 
-
-
-
   const {
-    remoteResolver,
-  } = context;
+    MODXResourcesStore,
+  } = context.state;
 
-  if(!remoteResolver){
-    throw("remoteResolver undefined");
+  let state = MODXResourcesStore && MODXResourcesStore.getState() || null;
+
+  if(state){
+
+    if(showunpublished === false){
+      state = state.filter(n => n.published === true);
+    }
+
+    if(showhidden === false){
+      state = state.filter(n => n.hidemenu === false);
+    }
+
   }
 
+  return state;
 
-  return new Promise(async (resolve, reject) => {
+  // const {
+  // } = args;
 
-    try{
 
-      const result = await remoteResolver(null, args, context, info);
 
-      resolve( result && List([result]) || null);
 
-    }
-    catch(e){
-      reject(e);
-    }
+  // const {
+  //   remoteResolver,
+  // } = context;
 
-  });
+  // if(!remoteResolver){
+  //   throw("remoteResolver undefined");
+  // }
+
+
+  // return new Promise(async (resolve, reject) => {
+
+  //   try{
+
+  //     const result = await remoteResolver(null, args, context, info);
+
+  //     resolve( result && List([result]) || null);
+
+  //   }
+  //   catch(e){
+  //     reject(e);
+  //   }
+
+  // });
 
 };
 

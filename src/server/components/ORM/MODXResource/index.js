@@ -1,7 +1,6 @@
 
 import MODXResourceType from 'modules/Site/components/ORM/MODXResource';
 
-
 export const getList = (object, args, context, info) => {
 
   const {
@@ -11,6 +10,8 @@ export const getList = (object, args, context, info) => {
   const {
     resourceType,
   } = args;
+
+  // console.log("MODXResourceType server", args);
 
   return new Promise((resolve, reject) => {
 
@@ -27,11 +28,13 @@ export const getList = (object, args, context, info) => {
     let request = SendMODXRequest(action, params);
 
     request
-    .then((data) => {
+    .then((r) => {
 
-      if(!data || !data.success){
+      // console.log("MODXResourceType result", r);
 
-        return reject(data && data.message || "Ошибка выполнения запроса");
+      if(!r || !r.success){
+
+        return reject(r && r.message || "Ошибка выполнения запроса");
       }
 
 
@@ -41,7 +44,7 @@ export const getList = (object, args, context, info) => {
 
 
 
-      let object = data.object && data.object.map(n => {
+      let data = r.data && r.data.map(n => {
 
         if(!n){
           return null;
@@ -114,9 +117,14 @@ export const getList = (object, args, context, info) => {
 
       }) || null;
 
-      data.object = object;
+      r.data = undefined;
+
+      r.object = data;
  
-      return resolve(data);
+
+      // console.log("MODXResourceType r.object", r);
+
+      return resolve(r);
 
     })
     .catch((e) => {
