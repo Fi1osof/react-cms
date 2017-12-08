@@ -252,8 +252,9 @@ export default class Page extends Component{
 
 		// Для всех страниц по умолчанию
 	  return {
-	  	title: "React-CMS",
-	  	data: {},
+	  	data: {
+	  		title: "React-CMS",
+	  	},
 	  };
 
 	}
