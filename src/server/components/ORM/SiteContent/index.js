@@ -95,6 +95,7 @@ export const getList = (object, args, context, info) => {
           params,
           location,
           req,
+          args,
         };
 
         // console.log("ReactCMS sitecontent req", req ? true : false);

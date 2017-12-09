@@ -104,12 +104,15 @@ export default class Page extends Component{
 
     const {
     	inited,
+    	location: contLocation,
     } = this.context;
 
     const {
     	inited: prevInited,
+    	location: prevContLocation,
     } = prevContext || {};
 
+    console.log("Page componentDidUpdate context", contLocation, prevContLocation, contLocation === prevContLocation);
 
     if(
     	(prevContext !== undefined && !prevInited && inited)
@@ -118,7 +121,7 @@ export default class Page extends Component{
     	this.onInit();
 
     }
-    	
+
 
     const {
       location,
@@ -128,7 +131,12 @@ export default class Page extends Component{
       location: prevLocation,
     } = prevProps;
 
+    console.log("Page componentDidUpdate", location, prevLocation, location === prevLocation);
+
     if(location && prevLocation && location !== prevLocation){
+
+    	console.log("Page componentDidUpdate onLocationChanged");
+
     	this.onLocationChanged();
     }
 
@@ -151,6 +159,7 @@ export default class Page extends Component{
 
   async onLocationChanged(){
 
+    console.log("Page onLocationChanged");
 
 
   	this.setState({
