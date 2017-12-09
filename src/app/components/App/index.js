@@ -100,8 +100,6 @@ export default class App extends Component{
   }
 
   getSchema(){
-    
-    console.log("rootDirectives", rootDirectives);
 
     return new GraphQLSchema({
       query: RootType,

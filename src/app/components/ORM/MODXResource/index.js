@@ -15,10 +15,62 @@ import GraphQLJSON from 'graphql-type-json';
 import { List } from 'immutable';
 
 
-export const MODXResourceArgs = {
+import {
+  sortBy,
+} from '../resolver';
+
+
+import {
+  listField,
+  listArgs,
+  imageType,
+  order,
+} from '../fields';
+
+
+export const MODXResourceSortBy = new GraphQLInputObjectType({
+  name: "MODXResourceSortBy",
+  fields: {
+    by: {
+      type: new GraphQLEnumType({
+        name: 'MODXResourceSortByValues',
+        values: {
+          id: {
+            value: 'id',
+            description: 'По ID',
+          },
+          menuindex: {
+            value: 'menuindex',
+            description: 'По индексу в меню',
+          },
+          rand: {
+            value: 'rand()',
+            description: 'В случайном порядке',
+          },
+        },
+      }),
+      description: 'Способ сортировки',
+    },
+    dir: order,
+  },
+});
+
+export const MODXResourceArgs = Object.assign(listArgs, {
   context_key: {
     type: GraphQLString,
     description: "Контекст",
+  },
+  parent: {
+    type: GraphQLInt,
+    description: "Фильтр по родителю",
+  },
+  uri: {
+    type: GraphQLString,
+    description: "Фильтр по УРЛу",
+  },
+  templates: {
+    type: new GraphQLList(GraphQLInt),
+    description: "Фильтр по шаблону",
   },
   showhidden: {
     type: GraphQLBoolean,
@@ -28,7 +80,10 @@ export const MODXResourceArgs = {
     type: GraphQLBoolean,
     description: "Показывать неопубликованные документы",
   },
-};
+  sort: {
+    type: new GraphQLList(MODXResourceSortBy),
+  },
+});
 
 
 export const MODXResourceFields = {
@@ -184,6 +239,11 @@ export const MODXResourceFields = {
     type: GraphQLString,
     description: "Артикул",
   },
+  image: {
+    type: GraphQLString,
+    description: "Картинка",
+  },
+  imageFormats: imageType,
   tvs: {
     type: GraphQLJSON,
     description: "Дополнительные поля",
@@ -237,9 +297,14 @@ const MODXResourceType = new GraphQLObjectType({
 
 export const getList = (source, args, context, info) => {
 
-  const {
+  let {
     showhidden,
     showunpublished,
+    parent,
+    context_key,
+    templates,
+    uri,
+    sort,
   } = args;
 
   const {
@@ -256,6 +321,64 @@ export const getList = (source, args, context, info) => {
 
     if(showhidden === false){
       state = state.filter(n => n.hidemenu === false);
+    }
+
+    if(context_key !== undefined){
+      state = state.filter(n => n.context_key === context_key);
+    }
+
+    if(parent !== undefined){
+
+      state = state.filter(n => n.parent === parent);
+
+    }
+
+    if(templates && templates.length){
+
+      state = state.filter(n => templates.indexOf(n.template) !== -1);
+
+    }
+
+    if(uri !== undefined){
+
+      uri = decodeURI(uri).replace(/^\/*/, "");
+
+      state = state.filter(n => n.uri === uri);
+
+    }
+
+    if(sort){
+
+      sort.map(rule => {
+
+        const {
+          by,
+          dir,
+        } = rule;
+
+        if(!by){
+          return;
+        }
+
+        let sortByRules;
+
+        switch(by){
+
+          case 'menuindex':
+
+            sortByRules = n => n.menuindex;
+
+            break;
+        }
+
+        if(sortByRules){
+
+          state = sortBy(state, sortByRules, dir);
+
+        };
+
+      });
+
     }
 
   }

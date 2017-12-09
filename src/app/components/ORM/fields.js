@@ -10,6 +10,8 @@ import {
   GraphQLFloat,
 } from 'graphql';
 
+import GraphQLJSON from 'graphql-type-json';
+
 
 
 
@@ -198,5 +200,9 @@ export const listArgs = {
   offset: {
     type: GraphQLInt,
     description: 'Сколько записей пропустить',
+  },
+  options: {
+    type: GraphQLJSON,
+    description: "Прочие условия",
   },
 };
