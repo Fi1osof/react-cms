@@ -94,8 +94,10 @@ export const getList = (object, args, context, info) => {
         let options = {
           params,
           location,
+          req,
         };
 
+        // console.log("ReactCMS sitecontent req", req ? true : false);
 
         result = await loadServerData.call(this, localQuery, options)
         .then(r => {

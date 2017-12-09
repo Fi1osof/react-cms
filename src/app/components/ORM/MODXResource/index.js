@@ -55,7 +55,11 @@ export const MODXResourceSortBy = new GraphQLInputObjectType({
   },
 });
 
-export const MODXResourceArgs = Object.assign(listArgs, {
+export const MODXResourceArgs = {
+  id: {
+    type: GraphQLInt,
+    description: "Поиск по ID",
+  },
   context_key: {
     type: GraphQLString,
     description: "Контекст",
@@ -80,6 +84,10 @@ export const MODXResourceArgs = Object.assign(listArgs, {
     type: GraphQLBoolean,
     description: "Показывать неопубликованные документы",
   },
+};
+
+
+export const MODXResourcesArgs = Object.assign({...MODXResourceArgs}, listArgs, {
   sort: {
     type: new GraphQLList(MODXResourceSortBy),
   },
@@ -300,6 +308,7 @@ export const getList = (source, args, context, info) => {
   let {
     showhidden,
     showunpublished,
+    showdeleted,
     parent,
     context_key,
     templates,
@@ -315,12 +324,16 @@ export const getList = (source, args, context, info) => {
 
   if(state){
 
-    if(showunpublished === false){
+    if(showunpublished !== true){
       state = state.filter(n => n.published === true);
     }
 
-    if(showhidden === false){
+    if(showhidden !== true){
       state = state.filter(n => n.hidemenu === false);
+    }
+
+    if(showdeleted !== true){
+      state = state.filter(n => n.deleted === false);
     }
 
     if(context_key !== undefined){
@@ -341,7 +354,15 @@ export const getList = (source, args, context, info) => {
 
     if(uri !== undefined){
 
-      uri = decodeURI(uri).replace(/^\/*/, "");
+      uri = decodeURI(uri);
+
+      /*
+        MODX во всех страницах вырезает начальный слеш.
+        Главной странице надо замораживать URL /
+      */
+      if(uri && uri !== "/"){
+        uri = uri.replace(/^\/*/, "");
+      }
 
       state = state.filter(n => n.uri === uri);
 

@@ -35,7 +35,7 @@ import defaultQuery from 'modules/Site/components/ORM/query';
 
 import 'graphiql/graphiql.css';
 
-import Page from '../';
+import Page from 'modules/Site/components/Pages/';
 
 
 let {
@@ -174,11 +174,11 @@ export default class PageGraphiQL extends Page{
       return null;
     }
 
-    return <div
+    return super.render(<div
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
+        flexBasis: '100%',
       }}
     >
       <div>
@@ -196,7 +196,7 @@ export default class PageGraphiQL extends Page{
         fetcher={::this._graphQLFetcher}
         // fetcher={::this.graphQLFetcherLocal}
       />  
-    </div>;
+    </div>);
   }
 }
 
