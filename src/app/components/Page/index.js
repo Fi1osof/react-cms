@@ -91,11 +91,11 @@ export default class Page extends Component{
 			document,
 		} = this.context;
 
-		// if(document){
+		if(document){
 
-		// 	document.resourceState = null;
+			document.resourceState = null;
 
-		// }
+		}
 
 	}
 
@@ -112,7 +112,7 @@ export default class Page extends Component{
     	location: prevContLocation,
     } = prevContext || {};
 
-    console.log("Page componentDidUpdate context", contLocation, prevContLocation, contLocation === prevContLocation);
+    // console.log("Page componentDidUpdate context", contLocation, prevContLocation, contLocation === prevContLocation);
 
     if(
     	(prevContext !== undefined && !prevInited && inited)
@@ -131,11 +131,11 @@ export default class Page extends Component{
       location: prevLocation,
     } = prevProps;
 
-    console.log("Page componentDidUpdate", location, prevLocation, location === prevLocation);
+    // console.log("Page componentDidUpdate", location, prevLocation, location === prevLocation);
 
     if(location && prevLocation && location !== prevLocation){
 
-    	console.log("Page componentDidUpdate onLocationChanged");
+    	// console.log("Page componentDidUpdate onLocationChanged");
 
     	this.onLocationChanged();
     }
@@ -159,7 +159,7 @@ export default class Page extends Component{
 
   async onLocationChanged(){
 
-    console.log("Page onLocationChanged");
+    // console.log("Page onLocationChanged");
 
 
   	this.setState({
