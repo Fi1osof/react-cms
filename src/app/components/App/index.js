@@ -67,6 +67,7 @@ export default class App extends Component{
     apiRequest: PropTypes.func,
     connector_url: PropTypes.string,
     userActions: PropTypes.object,
+    documentActions: PropTypes.object,
   };
 
 
@@ -77,6 +78,7 @@ export default class App extends Component{
       user,
       connector_url,
       userActions,
+      documentActions,
     } = this.props;
 
     let {
@@ -91,6 +93,7 @@ export default class App extends Component{
       schema,
       connector_url,
       userActions,
+      documentActions,
       localQuery: ::this.localQuery,
       remoteQuery: ::this.remoteQuery,
       request: ::this.request,

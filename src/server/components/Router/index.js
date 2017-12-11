@@ -1312,7 +1312,9 @@ export default class Router {
 
     const method = 'POST';
 
-    let url = `/assets/components/modxsite/connectors/connector.php?pub_action=${action}`;
+    let {
+      url = `/assets/components/modxsite/connectors/connector.php?pub_action=${action}`,
+    } = params;
 
     let options = {
       // host: host,

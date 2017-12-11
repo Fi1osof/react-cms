@@ -42,9 +42,13 @@ export const getList = (object, args, context, info) => {
       // Получаем все ключи модели
       var modelFields = Object.keys(MODXResourceType._fields);
 
+      let data = r.data;
 
+      if(data && !Array.isArray(data)){
+        data = [data];
+      }
 
-      let data = r.data && r.data.map(n => {
+      data = data && data.map(n => {
 
         if(!n){
           return null;
