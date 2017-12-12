@@ -1062,14 +1062,26 @@ export default class Router {
 
         // debug("ReactDom.renderToString");
 
+        // const componentHTML = ReactDom.renderToString(
+        //   <MainApp
+        //     appExports={appExports}
+        //     defaultQuery={this.defaultQuery}
+        //     rootResolver={this.rootResolver}
+        //     RootType={this.RootType}
+        //     Mutation={this.Mutation}
+        //     rootDirectives={this.rootDirectives}
+        //   >
+        //     <Provider store={store}>
+        //       <RouterContext 
+        //         {...renderProps} 
+        //       />
+        //     </Provider>
+        //   </MainApp>
+        // );
+
         const componentHTML = ReactDom.renderToString(
           <MainApp
             appExports={appExports}
-            defaultQuery={this.defaultQuery}
-            rootResolver={this.rootResolver}
-            RootType={this.RootType}
-            Mutation={this.Mutation}
-            rootDirectives={this.rootDirectives}
           >
             <Provider store={store}>
               <RouterContext 
@@ -1078,6 +1090,19 @@ export default class Router {
             </Provider>
           </MainApp>
         );
+
+        // Object.assign(renderProps, {
+        //   appExports,
+        // });
+
+        // const componentHTML = ReactDom.renderToString(
+        //   <Provider store={store}>
+        //     <RouterContext 
+        //       // appExports={appExports}
+        //       {...renderProps} 
+        //     />
+        //   </Provider>
+        // );
 
         const stylesGenerated = appExports.theme && appExports.theme.sheetsToString();
 

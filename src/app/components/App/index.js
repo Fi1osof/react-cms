@@ -14,14 +14,14 @@ export default class App extends Component{
 
 
   static propTypes = {
-  };
-
-  static contextTypes = {
     defaultQuery: PropTypes.string.isRequired,
     rootResolver: PropTypes.func.isRequired,
     RootType: PropTypes.object.isRequired,
     Mutation: PropTypes.object,
     rootDirectives: PropTypes.array,
+  };
+
+  static contextTypes = {
   };
 
 
@@ -100,11 +100,11 @@ export default class App extends Component{
 
     this.rootResolver = this.getRootResolver();
 
-    const schema = this.getSchema();
+    // const schema = this.getSchema();
 
-    Object.assign(this.state, {
-      schema,
-    });
+    // Object.assign(this.state, {
+    //   schema,
+    // });
 
     super.componentWillMount && super.componentWillMount();
 
@@ -115,7 +115,7 @@ export default class App extends Component{
 
     const {
       rootResolver,
-    } = this.context;
+    } = this.props;
 
     return rootResolver;
   }
@@ -126,7 +126,7 @@ export default class App extends Component{
       RootType,
       Mutation,
       rootDirectives,
-    } = this.context;
+    } = this.props;
 
     return new GraphQLSchema({
       query: RootType,
@@ -617,7 +617,7 @@ export default class App extends Component{
 
     const {
       defaultQuery,
-    } = this.state;
+    } = this.props;
 
     // var schema = this._getSchema();
 
