@@ -11,8 +11,6 @@ export const getList = (object, args, context, info) => {
     resourceType,
   } = args;
 
-  // console.log("MODXResourceType server", args);
-
   return new Promise((resolve, reject) => {
 
     let action = 'resources/getdata';
@@ -29,8 +27,6 @@ export const getList = (object, args, context, info) => {
 
     request
     .then((r) => {
-
-      // console.log("MODXResourceType result", r);
 
       if(!r || !r.success){
 
@@ -55,7 +51,6 @@ export const getList = (object, args, context, info) => {
         }
 
         const keys = Object.keys(n);
-        // const values = Object.values(n);
 
         let _other = {};
 
@@ -124,9 +119,6 @@ export const getList = (object, args, context, info) => {
       r.data = undefined;
 
       r.object = data;
- 
-
-      // console.log("MODXResourceType r.object", r);
 
       return resolve(r);
 

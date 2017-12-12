@@ -28,7 +28,8 @@ export const getList = (object, args, context, info) => {
     req,
   } = context;
 
-  // debug("args req.headers", req.headers);
+
+  debug("SiteContent args", args);
 
   return new Promise( async (resolve, reject) => {
  
@@ -72,11 +73,9 @@ export const getList = (object, args, context, info) => {
         1: baseRouter,
       } = routes || [];
 
-
       const {
         component: Component,
       } = baseRouter || {};
-
 
       if(!Component){
         reject("Не был получен базовый компонент");
@@ -98,12 +97,8 @@ export const getList = (object, args, context, info) => {
           args,
         };
 
-        // console.log("ReactCMS sitecontent req", req ? true : false);
-
         result = await loadServerData.call(this, localQuery, options)
         .then(r => {
-          
-
 
           return r;
 
