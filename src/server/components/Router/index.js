@@ -828,6 +828,7 @@ export default class Router {
       }
 
       if (error) { // Произошла ошибка любого рода
+
         return res.status(500).send(error.message);
       }
 
@@ -963,10 +964,15 @@ export default class Router {
           return r.data;
         })
         .catch(e => {
-          console.error(e);
+          console.error("Server SiteContent error", e);
+          // console.error("Server SiteContent error", JSON.stringify(e));
+
+          // e = JSON.parse(e);
+
           throw(e);
         });
 
+        console.error("Server SiteContent resourceData", resourceData);
 
         // let {
         //   // state: __state,
@@ -1097,7 +1103,7 @@ export default class Router {
 
       }
       catch(e){
-        console.error(e);
+        console.error("Server Response error", e);
         return res.status(500).send(e.message || e);
       };
 
@@ -1401,17 +1407,12 @@ export default class Router {
       // debug("options.headers", options.headers);
     }
 
-    // debug("options.headers", options.headers);
-    // debug("options", options);
-
 
     let result = await fetch(this.site_url + url, options)
     .then(function(res) {
       return res.json();
     })
     .then(function(r) {
-    
-      // console.log("SendMODXRequest result", r);
 
       return r;
     })

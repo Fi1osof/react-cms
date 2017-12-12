@@ -177,8 +177,6 @@ export const ObjectsListResolver = (resolver, object, args, context, info) => {
 
   let state = resolver(object, args, context, info);
 
-  // console.log("ObjectsListResolver result state", state);
-
   // if(state){
     
   //   let {

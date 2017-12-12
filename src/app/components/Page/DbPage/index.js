@@ -108,16 +108,25 @@ export default class PageGraphiQL extends Page{
     }).then(response => response.json());
   }
 
-  graphQLFetcherLocal(graphQLParams) {
-    
-    
+  async graphQLFetcherLocal(graphQLParams) {    
  
     const {
       localQuery,
     } = this.context;
 
-    return localQuery(graphQLParams); 
+    const result = await localQuery(graphQLParams)
+    .then(r => {
+      
+      return r;
+
+    })
+    .catch(e => {
+
+      return e;
+
+    }); 
     
+    return result;
  
   }
 
@@ -178,6 +187,7 @@ export default class PageGraphiQL extends Page{
         display: 'flex',
         flexDirection: 'column',
         flexBasis: '100%',
+        height: '100%',
       }}
     >
       <div>
