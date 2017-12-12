@@ -81,6 +81,10 @@ export default class Router {
       MainApp,
       Response,
       defaultQuery,
+      rootResolver,
+      RootType,
+      Mutation,
+      rootDirectives,
     } = options; 
 
     let {
@@ -96,6 +100,10 @@ export default class Router {
     this.site_url = site_url;
     this.prefix = prefix;
     this.defaultQuery = defaultQuery;
+    this.rootResolver = rootResolver;
+    this.RootType = RootType;
+    this.Mutation = Mutation;
+    this.rootDirectives = rootDirectives;
 
     knex = require('knex')(db_config);
 
@@ -972,8 +980,6 @@ export default class Router {
           throw(e);
         });
 
-        console.error("Server SiteContent resourceData", resourceData);
-
         // let {
         //   // state: __state,
         //   siteContent,
@@ -1060,6 +1066,10 @@ export default class Router {
           <MainApp
             appExports={appExports}
             defaultQuery={this.defaultQuery}
+            rootResolver={this.rootResolver}
+            RootType={this.RootType}
+            Mutation={this.Mutation}
+            rootDirectives={this.rootDirectives}
           >
             <Provider store={store}>
               <RouterContext 

@@ -6,31 +6,9 @@ import PropTypes from 'prop-types';
 import {
   buildSchema,
   graphql,
-  // execute,
-  // parse,
   GraphQLSchema,
-  // GraphQLObjectType,
-  // GraphQLInt,
-  // GraphQLFloat,
-  // GraphQLString,
-  // GraphQLBoolean,
-  // GraphQLList,
-  // GraphQLNonNull,
-  // GraphQLID,
-
-  // introspectionQuery, 
-  // buildClientSchema, 
-  // printSchema,
 } from 'graphql';
 
-import rootResolver from 'modules/Site/components/ORM/resolver';
-
-import RootType, {
-  Mutation,
-  rootDirectives,
-} from 'modules/Site/components/ORM';
-
-// import defaultQuery from 'modules/Site/components/ORM/query';
 
 export default class App extends Component{
 
@@ -40,6 +18,10 @@ export default class App extends Component{
 
   static contextTypes = {
     defaultQuery: PropTypes.string.isRequired,
+    rootResolver: PropTypes.func.isRequired,
+    RootType: PropTypes.object.isRequired,
+    Mutation: PropTypes.object,
+    rootDirectives: PropTypes.array,
   };
 
 
@@ -48,10 +30,10 @@ export default class App extends Component{
     super(props);
 
     // const orm = new ORM();
-    const schema = this.getSchema();
+    // const schema = this.getSchema();
 
     this.state = {
-      schema,
+      // schema,
     };
 
     Object.assign(this.state, this.createStores());
@@ -60,7 +42,6 @@ export default class App extends Component{
     this.saveItem = ::this.saveItem;
     this.saveCommentItem = ::this.saveCommentItem;
 
-    this.rootResolver = this.getRootResolver();
   }
 
 
@@ -115,11 +96,37 @@ export default class App extends Component{
   }
 
 
+  componentWillMount(){
+
+    this.rootResolver = this.getRootResolver();
+
+    const schema = this.getSchema();
+
+    Object.assign(this.state, {
+      schema,
+    });
+
+    super.componentWillMount && super.componentWillMount();
+
+  }
+
+
   getRootResolver(){
+
+    const {
+      rootResolver,
+    } = this.context;
+
     return rootResolver;
   }
 
   getSchema(){
+
+    const {
+      RootType,
+      Mutation,
+      rootDirectives,
+    } = this.context;
 
     return new GraphQLSchema({
       query: RootType,
