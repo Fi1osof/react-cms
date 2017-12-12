@@ -649,18 +649,23 @@ export default class App extends Component{
         } = result;
 
         if(errors && errors.length){
-          let {
-            message,
-            ...other
-          } = errors[0];
 
-          return reject(message, {...other});
+          reject(result);
+
+          // let {
+          //   message,
+          //   ...other
+          // } = errors[0];
+
+          // console.error("localQuery error", result);
+
+          // return reject(message, {...other});
         }
 
         resolve(result);
       })
       .catch(e => {
-        console.error(e);
+        // console.error(e);
         reject(e);
       });
  

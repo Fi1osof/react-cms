@@ -1,4 +1,10 @@
 
+1.4.1
+===============================================
+- Fixed GraphQL errors
+- Added listField ORM
+
+
 1.4.0
 ===============================================
 - Adaptived for ShopModx

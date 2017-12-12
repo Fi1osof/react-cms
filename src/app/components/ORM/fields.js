@@ -206,3 +206,46 @@ export const listArgs = {
     description: "Прочие условия",
   },
 };
+
+
+
+export class listField {
+
+  constructor(props){
+
+    let {
+      description,
+      args,
+      resolve,
+      ...other
+    } = props;
+
+    args = Object.assign({...listArgs}, args || {});
+
+    Object.assign(this, {
+      description,
+      args,
+    });
+
+    this.type = new ObjectsListType({
+      ...other,
+    });
+
+  }
+
+  beforeCount(source, args, context, info){
+
+    let {
+      ids,
+    } = args;
+
+    if(ids && ids.length){
+      source = source.filter(n => ids.indexOf(n.id) !== -1);
+    }
+
+    return source;
+  }
+  
+}
+
+
