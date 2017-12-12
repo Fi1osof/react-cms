@@ -3,18 +3,18 @@
     "name": "Fi1osof"
   },
   "bugs": {
-    "url": "https://github.com/Fi1osof/react-cms/issues"
+    "url": "https://github.com/MODX-Club/react-cms/issues"
   },
   "bundleDependencies": false,
   "deprecated": false,
   "description": "For personal use. Not production.",
-  "homepage": "https://github.com/Fi1osof/react-cms#readme",
+  "homepage": "https://github.com/MODX-Club/react-cms#readme",
   "license": "ISC",
   "main": "src/index.js",
   "name": "react-cms",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Fi1osof/react-cms.git"
+    "url": "git+https://github.com/MODX-Club/react-cms"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
