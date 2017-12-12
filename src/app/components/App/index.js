@@ -30,9 +30,17 @@ import RootType, {
   rootDirectives,
 } from 'modules/Site/components/ORM';
 
-import defaultQuery from 'modules/Site/components/ORM/query';
+// import defaultQuery from 'modules/Site/components/ORM/query';
 
 export default class App extends Component{
+
+
+  static propTypes = {
+  };
+
+  static contextTypes = {
+    defaultQuery: PropTypes.string.isRequired,
+  };
 
 
   constructor(props){
@@ -61,6 +69,7 @@ export default class App extends Component{
     document: PropTypes.object,
     user: PropTypes.object,
     schema: PropTypes.object,
+    // defaultQuery: PropTypes.string,
     localQuery: PropTypes.func,
     remoteQuery: PropTypes.func,
     request: PropTypes.func,
@@ -79,6 +88,7 @@ export default class App extends Component{
       connector_url,
       userActions,
       documentActions,
+      // defaultQuery,
     } = this.props;
 
     let {
@@ -91,6 +101,7 @@ export default class App extends Component{
       document,
       user,
       schema,
+      // defaultQuery,
       connector_url,
       userActions,
       documentActions,
@@ -595,6 +606,10 @@ export default class App extends Component{
 
     const {
       schema,
+    } = this.state;
+
+    const {
+      defaultQuery,
     } = this.state;
 
     // var schema = this._getSchema();

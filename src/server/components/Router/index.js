@@ -80,6 +80,7 @@ export default class Router {
       routes,
       MainApp,
       Response,
+      defaultQuery,
     } = options; 
 
     let {
@@ -94,6 +95,7 @@ export default class Router {
     this.Response = Response;
     this.site_url = site_url;
     this.prefix = prefix;
+    this.defaultQuery = defaultQuery;
 
     knex = require('knex')(db_config);
 
@@ -1051,6 +1053,7 @@ export default class Router {
         const componentHTML = ReactDom.renderToString(
           <MainApp
             appExports={appExports}
+            defaultQuery={this.defaultQuery}
           >
             <Provider store={store}>
               <RouterContext 

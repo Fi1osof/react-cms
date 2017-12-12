@@ -31,11 +31,9 @@ import {
   printSchema,
 } from 'graphql';
 
-import defaultQuery from 'modules/Site/components/ORM/query';
-
 import 'graphiql/graphiql.css';
 
-import Page from 'modules/Site/components/Pages/';
+import Page from '../';
 
 
 let {
@@ -48,7 +46,7 @@ Object.assign(contextTypes, {
   localQuery: PropTypes.func.isRequired,
   // orm: PropTypes.object.isRequired,
   schema: PropTypes.object.isRequired,
-  // db: PropTypes.object.isRequired,
+  defaultQuery: PropTypes.string.isRequired,
 });
 
 
@@ -164,6 +162,7 @@ export default class PageGraphiQL extends Page{
 
     const {
       schema: localSchema,
+      defaultQuery,
     } = this.context;
 
     schema = localSchema;

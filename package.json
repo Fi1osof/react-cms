@@ -1,4 +1,32 @@
 {
+  "_args": [
+    [
+      "react-cms@1.4.0",
+      "/old_disk/var/www/v2.shopmodxbox.dev.modx.site/assets/components/modxsite/templates/shopmodx/v4.0"
+    ]
+  ],
+  "_from": "react-cms@1.4.0",
+  "_id": "react-cms@1.4.0",
+  "_inBundle": false,
+  "_integrity": "sha512-V5wWjC3C9AXQzQq4UMx8wcVeooKAx4vlv/7L9/JvOd//J3mrja54Vn8LuRpJEfslEwAldF4MXOrL1XdayKkmag==",
+  "_location": "/react-cms",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "react-cms@1.4.0",
+    "name": "react-cms",
+    "escapedName": "react-cms",
+    "rawSpec": "1.4.0",
+    "saveSpec": null,
+    "fetchSpec": "1.4.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-cms/-/react-cms-1.4.0.tgz",
+  "_spec": "1.4.0",
+  "_where": "/old_disk/var/www/v2.shopmodxbox.dev.modx.site/assets/components/modxsite/templates/shopmodx/v4.0",
   "author": {
     "name": "Fi1osof"
   },

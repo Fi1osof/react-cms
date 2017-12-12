@@ -10,8 +10,6 @@ import Input, { InputLabel } from 'material-ui/Input';
 // import FormControl from 'material-ui/Form/FormControl';
 // import FormHelperText from 'material-ui/Form/FormHelperText';
 
-// import FormControl, {styleSheet} from 'modules/Site/components/UI/Form/FormControl';
-
 import classNames from 'classnames';
 
 import PropTypes from 'prop-types';
