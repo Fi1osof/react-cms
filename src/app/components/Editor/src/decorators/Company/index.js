@@ -190,7 +190,7 @@ function findLinkEntities(contentBlock, callback, contentState) {
 function getLinkComponent(config) {
   const showOpenOptionOnHover = config.showOpenOptionOnHover;
 
-  return class CompanyLinkDecorator;
+  return CompanyLinkDecorator;
 
 }
 
