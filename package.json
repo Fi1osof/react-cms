@@ -14,10 +14,10 @@
   "name": "react-cms",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MODX-Club/react-cms"
+    "url": "git+https://github.com/MODX-Club/react-cms.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.5.2"
+  "version": "1.5.3"
 }

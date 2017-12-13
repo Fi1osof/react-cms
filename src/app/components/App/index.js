@@ -50,7 +50,7 @@ export default class App extends Component{
     document: PropTypes.object,
     user: PropTypes.object,
     schema: PropTypes.object,
-    // defaultQuery: PropTypes.string,
+    defaultQuery: PropTypes.string,
     localQuery: PropTypes.func,
     remoteQuery: PropTypes.func,
     request: PropTypes.func,
@@ -69,7 +69,7 @@ export default class App extends Component{
       connector_url,
       userActions,
       documentActions,
-      // defaultQuery,
+      defaultQuery,
     } = this.props;
 
     let {
@@ -82,7 +82,7 @@ export default class App extends Component{
       document,
       user,
       schema,
-      // defaultQuery,
+      defaultQuery,
       connector_url,
       userActions,
       documentActions,
@@ -100,11 +100,11 @@ export default class App extends Component{
 
     this.rootResolver = this.getRootResolver();
 
-    // const schema = this.getSchema();
+    const schema = this.getSchema();
 
-    // Object.assign(this.state, {
-    //   schema,
-    // });
+    Object.assign(this.state, {
+      schema,
+    });
 
     super.componentWillMount && super.componentWillMount();
 
