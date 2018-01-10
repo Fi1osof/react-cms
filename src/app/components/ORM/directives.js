@@ -19,6 +19,9 @@ import {
 
 import { 
   DirectiveLocation, 
+} from 'graphql/language/directiveLocation';
+
+import { 
   GraphQLDirective,
 } from 'graphql/type/directives';
 
