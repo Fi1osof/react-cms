@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Grid from 'material-ui/Grid';
 
-import {Link} from 'react-router';
+import {browserHistory} from 'react-router';
 
 const defaultProps = {}
 
@@ -104,12 +104,18 @@ export default class Page extends Component{
 
     const {
     	inited,
-    	location: contLocation,
+			location: contLocation,
+			user: {
+				user: currentUser,
+			},
     } = this.context;
 
     const {
     	inited: prevInited,
     	location: prevContLocation,
+			user: {
+				user: prevUser,
+			},
     } = prevContext || {};
 
     if(
@@ -119,6 +125,11 @@ export default class Page extends Component{
     	this.onInit();
 
     }
+
+
+		if((currentUser || prevUser) && currentUser !== prevUser){
+			this.onUserChanged();
+		}
 
 
     const {
@@ -167,6 +178,13 @@ export default class Page extends Component{
   }
 
 
+  onUserChanged(){
+
+  	return this.reloadData();
+
+  }
+
+
   onStoreUpdated(store, payload){
 
   	this.reloadData();
@@ -206,7 +224,41 @@ export default class Page extends Component{
 
     return title;
 
-  }
+	}
+	
+
+	prepareOptions(options){
+
+		const {
+      params,
+      location,
+		} = this.props;
+		
+		// const {
+		// 	query,
+		// } = location || {};
+		
+		// const {
+		// 	page,
+		// } = query || {};
+
+
+		// const {
+		// 	user,
+		// } = this.context;
+
+
+		Object.assign(options, {
+			params,
+			location,
+			// query,
+			// page: page && parseInt(page) || undefined,
+			// user,
+		});
+
+		return options;
+
+	}
 
 	
 	async loadData(options = {}){
@@ -216,6 +268,8 @@ export default class Page extends Component{
 			return;
 
 		}
+
+		options = this.prepareOptions(options);
 
 		const {
 			remoteQuery,
@@ -280,6 +334,40 @@ export default class Page extends Component{
 
 		}
 
+	}
+
+
+	// Clean pagination
+	cleanUriFilters = () => {
+
+		const {
+			router,
+		} = this.props;
+
+		if(!router){
+			return null;
+		}
+
+		const {
+			location,
+    } = router;
+    
+    const {
+      page,
+    } = location.query || {}
+
+    if(page && page > 1){
+  
+      let newLocation = router.createLocation(location);
+  
+      newLocation.query.page = undefined;
+  
+      const newPath = router.createPath(newLocation);
+
+      browserHistory.push(newPath);
+
+		}
+		
 	}
 
 

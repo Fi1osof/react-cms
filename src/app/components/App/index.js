@@ -55,6 +55,8 @@ export default class App extends Component{
     remoteQuery: PropTypes.func,
     request: PropTypes.func,
     apiRequest: PropTypes.func,
+    updateItem: PropTypes.func,
+    saveItem: PropTypes.func,
     connector_url: PropTypes.string,
     userActions: PropTypes.object,
     documentActions: PropTypes.object,
@@ -90,6 +92,8 @@ export default class App extends Component{
       remoteQuery: ::this.remoteQuery,
       request: ::this.request,
       apiRequest: ::this.apiRequest,
+      updateItem: ::this.updateItem,
+      saveItem: ::this.saveItem,
     };
 
     return context;

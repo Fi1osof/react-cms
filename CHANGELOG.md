@@ -1,4 +1,16 @@
 
+1.5.6
+===============================================
+- Added App::updateItem
+- Added App::saveItem
+- Added User page
+- Code refactoring
+- Added location optoins in Page::loadData
+- Added Page::prepareOptions()
+- Added Page::cleanUriFilters()
+- Added Page::onUserChanged()
+
+
 1.5.5
 ===============================================
 - Added Pagination
