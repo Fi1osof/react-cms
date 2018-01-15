@@ -1,4 +1,9 @@
 
+1.5.7
+===============================================
+- Restore AppMain::loadApiData() on componentWillMount.
+
+
 1.5.6
 ===============================================
 - Added App::updateItem

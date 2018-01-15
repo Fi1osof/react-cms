@@ -34,6 +34,7 @@ export default class App extends Component{
 
     this.state = {
       // schema,
+      developMode: false,
     };
 
     Object.assign(this.state, this.createStores());
@@ -109,6 +110,8 @@ export default class App extends Component{
     Object.assign(this.state, {
       schema,
     });
+
+    this.loadApiData();
 
     super.componentWillMount && super.componentWillMount();
 
