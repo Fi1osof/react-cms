@@ -1,4 +1,9 @@
 
+1.5.8
+===============================================
+- Added return result in Page::loadData()
+
+
 1.5.7
 ===============================================
 - Restore AppMain::loadApiData() on componentWillMount.

@@ -291,7 +291,7 @@ export default class Page extends Component{
 
 		this.initState(result && result.data || {});
 
-		return;
+		return result;
 
 	}
 
